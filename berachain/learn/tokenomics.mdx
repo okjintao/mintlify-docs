@@ -1,0 +1,364 @@
+---
+title: "Tokenomics"
+description: "Understanding Berachain's three-token economic model"
+---
+
+## The Three-Token System
+
+Berachain operates with three native tokens, each serving a specific purpose in the ecosystem:
+
+<CardGroup cols={3}>
+  <Card title="BERA" icon="gas-pump">
+    Gas & Utility Token
+  </Card>
+  <Card title="BGT" icon="landmark">
+    Governance Token
+  </Card>
+  <Card title="HONEY" icon="coins">
+    Native Stablecoin
+  </Card>
+</CardGroup>
+
+## BERA Token
+
+### Purpose
+
+BERA is the native gas token used for:
+- Paying transaction fees
+- Validator operations
+- General utility in the ecosystem
+
+### Properties
+
+- **Supply**: Uncapped (inflationary)
+- **Distribution**: Block rewards to validators
+- **Transferable**: Yes, freely tradable
+- **Burnable**: Can be minted by burning BGT 1:1
+
+### BERA Economics
+
+```
+Block Reward: ~X BERA per block
+Annual Inflation: ~Y%
+Validators receive BERA as block rewards
+```
+
+<Note>
+  BERA can be obtained by burning BGT, providing a one-way conversion mechanism.
+</Note>
+
+## BGT Token (Berachain Governance Token)
+
+### Purpose
+
+BGT is the governance token used for:
+- Protocol governance and voting
+- Validator delegation
+- Directing liquidity incentives
+- Participating in Proof-of-Liquidity
+
+### Properties
+
+- **Supply**: Dynamic (minted through PoL)
+- **Non-Transferable**: Cannot be sold or transferred
+- **Earned Only**: Must be earned through ecosystem participation
+- **Burnable**: Can be burned 1:1 to mint BERA
+
+### How to Earn BGT
+
+<Steps>
+  <Step title="Provide Liquidity">
+    Supply liquidity to whitelisted pools on BEX or Bend
+  </Step>
+  
+  <Step title="Receive Emissions">
+    Validators direct BGT emissions to liquidity providers
+  </Step>
+  
+  <Step title="Delegate or Burn">
+    Delegate BGT to validators or burn for BERA
+  </Step>
+</Steps>
+
+### BGT Utility
+
+<AccordionGroup>
+  <Accordion title="Governance Voting">
+    Vote on protocol proposals, parameter changes, and ecosystem initiatives
+  </Accordion>
+  
+  <Accordion title="Validator Delegation">
+    Delegate to validators to earn rewards and influence block production
+  </Accordion>
+  
+  <Accordion title="Gauge Voting">
+    Vote on which pools receive BGT emissions
+  </Accordion>
+  
+  <Accordion title="Burn for BERA">
+    Convert to liquid BERA at 1:1 ratio (irreversible)
+  </Accordion>
+</AccordionGroup>
+
+### BGT Distribution
+
+```
+Total BGT Emissions: ~Z BGT per block
+
+Distribution:
+- 70% to Liquidity Providers (via validators)
+- 20% to Protocol Treasury
+- 10% to Ecosystem Development
+```
+
+<Warning>
+  BGT cannot be purchased - it can only be earned through ecosystem participation. This ensures aligned incentives.
+</Warning>
+
+## HONEY Token
+
+### Purpose
+
+HONEY is Berachain's native overcollateralized stablecoin:
+- Medium of exchange
+- Unit of account
+- Collateral in DeFi protocols
+- Stable value storage
+
+### Properties
+
+- **Peg**: $1 USD
+- **Collateralization**: 110-150% (variable)
+- **Backing**: Multi-asset collateral
+- **Transferable**: Yes, freely tradable
+
+### HONEY Mechanics
+
+<Steps>
+  <Step title="Deposit Collateral">
+    Users deposit approved assets (BERA, wETH, wBTC, etc.)
+  </Step>
+  
+  <Step title="Mint HONEY">
+    Mint HONEY against collateral (min 110% ratio)
+  </Step>
+  
+  <Step title="Use HONEY">
+    Trade, lend, or use in DeFi applications
+  </Step>
+  
+  <Step title="Burn to Redeem">
+    Burn HONEY to reclaim collateral
+  </Step>
+</Steps>
+
+### HONEY Stability Mechanisms
+
+<AccordionGroup>
+  <Accordion title="Overcollateralization">
+    All HONEY is backed by 110-150% collateral value, ensuring solvency even during price drops.
+  </Accordion>
+  
+  <Accordion title="Liquidations">
+    Positions below minimum collateral ratio are liquidated to maintain system health.
+  </Accordion>
+  
+  <Accordion title="Stability Pool">
+    HONEY holders can deposit in stability pool to earn rewards and support peg.
+  </Accordion>
+  
+  <Accordion title="Redemption Mechanism">
+    HONEY can always be redeemed for $1 worth of collateral, creating price floor.
+  </Accordion>
+</AccordionGroup>
+
+## Token Interactions
+
+### BERA ↔ BGT
+
+```
+BGT → BERA: Burn BGT to mint BERA (1:1)
+BERA → BGT: Cannot directly convert (must earn through PoL)
+```
+
+### HONEY Minting
+
+```
+Collateral → HONEY: Deposit collateral, mint HONEY
+HONEY → Collateral: Burn HONEY, redeem collateral
+```
+
+## Economic Flywheel
+
+The three-token system creates a powerful flywheel effect:
+
+<Steps>
+  <Step title="Liquidity Provision">
+    Users provide liquidity to earn BGT
+  </Step>
+  
+  <Step title="BGT Accumulation">
+    Validators attract liquidity by offering competitive BGT rewards
+  </Step>
+  
+  <Step title="Network Security">
+    More BGT delegation = stronger validator = better network security
+  </Step>
+  
+  <Step title="BERA Demand">
+    Users burn BGT for BERA to pay gas, creating BERA demand
+  </Step>
+  
+  <Step title="HONEY Utility">
+    HONEY facilitates stable transactions and DeFi activities
+  </Step>
+</Steps>
+
+## Supply Dynamics
+
+### BERA Supply
+
+```
+Initial Supply: X BERA
+Inflation: ~Y% annually
+Sources: Block rewards
+Sinks: Gas fees (burned), ecosystem growth
+```
+
+### BGT Supply
+
+```
+Initial Supply: 0 BGT (all earned)
+Emission Rate: ~Z BGT per block
+Sources: PoL emissions
+Sinks: Burned for BERA
+```
+
+### HONEY Supply
+
+```
+Supply: Demand-driven (minted as needed)
+Backing: 110-150% collateralized
+Max Supply: Unlimited (market-driven)
+```
+
+## Comparison with Other L1s
+
+| Feature | Berachain | Ethereum | Solana |
+|---------|-----------|----------|--------|
+| Gas Token | BERA | ETH | SOL |
+| Governance | BGT (non-transferable) | Token-based | Token-based |
+| Stablecoin | HONEY (native) | USDC (external) | USDC (external) |
+| Consensus | PoL | PoS | PoS |
+| Incentive Alignment | High | Medium | Medium |
+
+## Token Distribution
+
+### Genesis Distribution
+
+```
+Total Initial BERA:
+- 40% Ecosystem Development
+- 25% Team & Advisors (4-year vest)
+- 20% Community Treasury
+- 15% Public Sale
+
+BGT: 100% earned through participation (no genesis distribution)
+HONEY: Minted on-demand by users
+```
+
+## Staking & Delegation
+
+### BERA Staking
+
+Not directly stakeable - instead, provide liquidity to earn BGT
+
+### BGT Delegation
+
+```
+Delegate BGT to validators:
+- Earn additional rewards
+- Influence network governance
+- Support preferred validators
+- No lockup period
+```
+
+## Use Cases
+
+### For Traders
+
+- Trade with BERA
+- Use HONEY for stable value
+- Provide liquidity to earn BGT
+
+### For Liquidity Providers
+
+- Earn BGT emissions
+- Compound yields through delegation
+- Participate in governance
+
+### For Validators
+
+- Earn BERA block rewards
+- Attract liquidity with BGT
+- Build ecosystem services
+
+### For Builders
+
+- Use HONEY as stable payment rails
+- Integrate BGT incentives
+- Build on liquid infrastructure
+
+## Future Developments
+
+<AccordionGroup>
+  <Accordion title="Token Burning Mechanisms">
+    Additional deflationary mechanisms for BERA to balance inflation
+  </Accordion>
+  
+  <Accordion title="Advanced Governance">
+    More sophisticated governance models using BGT
+  </Accordion>
+  
+  <Accordion title="Cross-Chain HONEY">
+    Bridge HONEY to other chains as stable asset
+  </Accordion>
+  
+  <Accordion title="Enhanced PoL">
+    New ways to earn and utilize BGT
+  </Accordion>
+</AccordionGroup>
+
+## Learn More
+
+<CardGroup cols={2}>
+  <Card
+    title="Proof-of-Liquidity"
+    icon="droplet"
+    href="/berachain/learn/proof-of-liquidity"
+  >
+    Deep dive into PoL mechanism
+  </Card>
+  <Card
+    title="Governance"
+    icon="landmark"
+    href="/berachain/learn/governance"
+  >
+    How BGT governance works
+  </Card>
+  <Card
+    title="HONEY Stablecoin"
+    icon="coins"
+    href="/berachain/learn/honey"
+  >
+    Learn about HONEY mechanics
+  </Card>
+  <Card
+    title="Economics Research"
+    icon="chart-line"
+    href="https://research.berachain.com"
+  >
+    Read economic research papers
+  </Card>
+</CardGroup>
+

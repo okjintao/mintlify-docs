@@ -1,0 +1,671 @@
+---
+title: "Bend Integration Guide"
+description: "Integrate lending and borrowing into your application"
+---
+
+## Overview
+
+This guide covers integrating Bend lending and borrowing functionality into your dApp, including supply, borrow, repay, and position management.
+
+## Quick Start
+
+### Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @berachain/bend-sdk ethers
+```
+
+```bash yarn
+yarn add @berachain/bend-sdk ethers
+```
+
+```bash pnpm
+pnpm add @berachain/bend-sdk ethers
+```
+
+</CodeGroup>
+
+### Basic Setup
+
+```javascript
+import { BendSDK, ChainId } from '@berachain/bend-sdk';
+import { ethers } from 'ethers';
+
+// Initialize provider and SDK
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+
+const bend = new BendSDK({
+  chainId: ChainId.ARTIO_TESTNET,
+  provider,
+  signer
+});
+```
+
+## Supplying Assets (Lending)
+
+### Basic Supply
+
+Supply assets to earn interest:
+
+```javascript
+async function supplyAssets() {
+  const asset = "0x..."; // HONEY token address
+  const amount = ethers.utils.parseEther("100");
+  
+  // Approve Bend to spend tokens (one-time per token)
+  const tokenContract = new ethers.Contract(asset, ERC20_ABI, signer);
+  const approveTx = await tokenContract.approve(
+    bend.addresses.LENDING_POOL,
+    amount
+  );
+  await approveTx.wait();
+  
+  // Supply assets
+  const tx = await bend.supply({
+    asset,
+    amount,
+    onBehalfOf: await signer.getAddress()
+  });
+  
+  await tx.wait();
+  console.log("Supply successful:", tx.hash);
+}
+```
+
+### Supply with Referral Code
+
+```javascript
+const tx = await bend.supply({
+  asset: HONEY_ADDRESS,
+  amount: ethers.utils.parseEther("100"),
+  onBehalfOf: await signer.getAddress(),
+  referralCode: 0 // Your referral code
+});
+```
+
+### Check Supply Balance
+
+```javascript
+async function getSupplyBalance() {
+  const userAddress = await signer.getAddress();
+  
+  const balance = await bend.getUserAccountData(userAddress);
+  
+  console.log("Supplied:", ethers.utils.formatEther(balance.totalCollateralETH));
+  console.log("Available to borrow:", ethers.utils.formatEther(balance.availableBorrowsETH));
+}
+```
+
+## Enabling Collateral
+
+Enable supplied assets as collateral:
+
+```javascript
+async function enableCollateral() {
+  const asset = HONEY_ADDRESS;
+  
+  const tx = await bend.setUserUseReserveAsCollateral({
+    asset,
+    useAsCollateral: true
+  });
+  
+  await tx.wait();
+  console.log("Collateral enabled");
+}
+```
+
+## Borrowing Assets
+
+### Basic Borrow
+
+```javascript
+async function borrowAssets() {
+  const asset = HONEY_ADDRESS;
+  const amount = ethers.utils.parseEther("50");
+  
+  // Check available borrowing capacity
+  const accountData = await bend.getUserAccountData(await signer.getAddress());
+  console.log("Available to borrow:", ethers.utils.formatEther(accountData.availableBorrowsETH));
+  
+  // Borrow
+  const tx = await bend.borrow({
+    asset,
+    amount,
+    interestRateMode: 2, // 1 = Stable, 2 = Variable
+    onBehalfOf: await signer.getAddress()
+  });
+  
+  await tx.wait();
+  console.log("Borrow successful:", tx.hash);
+}
+```
+
+### Check Borrow Capacity
+
+```javascript
+async function checkBorrowCapacity() {
+  const userAddress = await signer.getAddress();
+  const asset = HONEY_ADDRESS;
+  
+  // Get user account data
+  const accountData = await bend.getUserAccountData(userAddress);
+  
+  // Get asset data
+  const reserveData = await bend.getReserveData(asset);
+  
+  // Calculate max borrow in asset terms
+  const assetPrice = await bend.oracle.getAssetPrice(asset);
+  const maxBorrowInAsset = accountData.availableBorrowsETH
+    .mul(ethers.utils.parseEther("1"))
+    .div(assetPrice);
+  
+  console.log("Max borrow:", ethers.utils.formatEther(maxBorrowInAsset), "tokens");
+  
+  return maxBorrowInAsset;
+}
+```
+
+### Borrow with Interest Rate Mode
+
+```javascript
+// Variable rate (recommended for most cases)
+const variableTx = await bend.borrow({
+  asset: HONEY_ADDRESS,
+  amount: ethers.utils.parseEther("100"),
+  interestRateMode: 2, // Variable
+  onBehalfOf: await signer.getAddress()
+});
+
+// Stable rate (for predictability)
+const stableTx = await bend.borrow({
+  asset: HONEY_ADDRESS,
+  amount: ethers.utils.parseEther("100"),
+  interestRateMode: 1, // Stable
+  onBehalfOf: await signer.getAddress()
+});
+```
+
+## Repaying Borrowed Assets
+
+### Basic Repay
+
+```javascript
+async function repayBorrow() {
+  const asset = HONEY_ADDRESS;
+  const amount = ethers.utils.parseEther("50");
+  
+  // Approve Bend to spend repayment tokens
+  const tokenContract = new ethers.Contract(asset, ERC20_ABI, signer);
+  await tokenContract.approve(bend.addresses.LENDING_POOL, amount);
+  
+  // Repay
+  const tx = await bend.repay({
+    asset,
+    amount,
+    interestRateMode: 2, // Must match borrow mode
+    onBehalfOf: await signer.getAddress()
+  });
+  
+  await tx.wait();
+  console.log("Repay successful:", tx.hash);
+}
+```
+
+### Repay Full Amount
+
+```javascript
+async function repayFull() {
+  const asset = HONEY_ADDRESS;
+  
+  // Use max uint256 to repay entire debt
+  const MAX_UINT = ethers.constants.MaxUint256;
+  
+  const tx = await bend.repay({
+    asset,
+    amount: MAX_UINT,
+    interestRateMode: 2,
+    onBehalfOf: await signer.getAddress()
+  });
+  
+  await tx.wait();
+}
+```
+
+## Withdrawing Supplied Assets
+
+```javascript
+async function withdraw() {
+  const asset = HONEY_ADDRESS;
+  const amount = ethers.utils.parseEther("50"); // or MAX_UINT for all
+  
+  const tx = await bend.withdraw({
+    asset,
+    amount,
+    to: await signer.getAddress()
+  });
+  
+  await tx.wait();
+  console.log("Withdrawal successful");
+}
+```
+
+## Health Factor Monitoring
+
+### Calculate Health Factor
+
+```javascript
+async function getHealthFactor() {
+  const userAddress = await signer.getAddress();
+  
+  const accountData = await bend.getUserAccountData(userAddress);
+  
+  const healthFactor = parseFloat(
+    ethers.utils.formatEther(accountData.healthFactor)
+  );
+  
+  console.log("Health Factor:", healthFactor);
+  
+  // Interpret health factor
+  if (healthFactor > 1.5) {
+    console.log("Status: Safe ✓");
+  } else if (healthFactor > 1.2) {
+    console.log("Status: Moderate - Monitor closely");
+  } else if (healthFactor > 1.0) {
+    console.log("Status: Warning - Add collateral or repay");
+  } else {
+    console.log("Status: DANGER - Liquidation risk!");
+  }
+  
+  return healthFactor;
+}
+```
+
+### Real-Time Health Factor Monitoring
+
+```javascript
+async function monitorHealthFactor() {
+  const userAddress = await signer.getAddress();
+  
+  // Poll health factor every 30 seconds
+  setInterval(async () => {
+    const accountData = await bend.getUserAccountData(userAddress);
+    const healthFactor = parseFloat(
+      ethers.utils.formatEther(accountData.healthFactor)
+    );
+    
+    console.log("Current Health Factor:", healthFactor);
+    
+    if (healthFactor < 1.2) {
+      alert("Warning: Low health factor! Consider adding collateral.");
+    }
+  }, 30000);
+}
+```
+
+## Market Data Queries
+
+### Get Market Information
+
+```javascript
+async function getMarketInfo() {
+  const asset = HONEY_ADDRESS;
+  
+  const reserveData = await bend.getReserveData(asset);
+  
+  console.log("Market Info:");
+  console.log("Supply APY:", reserveData.liquidityRate / 1e25 + "%");
+  console.log("Borrow APR:", reserveData.variableBorrowRate / 1e25 + "%");
+  console.log("Total Liquidity:", ethers.utils.formatEther(reserveData.availableLiquidity));
+  console.log("Utilization:", (
+    reserveData.totalVariableDebt / 
+    (reserveData.availableLiquidity + reserveData.totalVariableDebt) * 100
+  ).toFixed(2) + "%");
+}
+```
+
+### Get User Position Data
+
+```javascript
+async function getUserPosition() {
+  const userAddress = await signer.getAddress();
+  
+  const accountData = await bend.getUserAccountData(userAddress);
+  
+  return {
+    totalCollateral: ethers.utils.formatEther(accountData.totalCollateralETH),
+    totalDebt: ethers.utils.formatEther(accountData.totalDebtETH),
+    availableBorrow: ethers.utils.formatEther(accountData.availableBorrowsETH),
+    currentLTV: accountData.ltv / 100 + "%",
+    liquidationThreshold: accountData.liquidationThreshold / 100 + "%",
+    healthFactor: ethers.utils.formatEther(accountData.healthFactor)
+  };
+}
+```
+
+### Get All User Reserves
+
+```javascript
+async function getAllUserReserves() {
+  const userAddress = await signer.getAddress();
+  
+  const reserves = await bend.getUserReservesData(userAddress);
+  
+  reserves.forEach(reserve => {
+    console.log("Asset:", reserve.asset);
+    console.log("Supplied:", ethers.utils.formatUnits(reserve.currentATokenBalance, reserve.decimals));
+    console.log("Borrowed:", ethers.utils.formatUnits(reserve.currentVariableDebt, reserve.decimals));
+    console.log("Used as Collateral:", reserve.usageAsCollateralEnabled);
+    console.log("---");
+  });
+  
+  return reserves;
+}
+```
+
+## React Integration
+
+### Custom Hooks
+
+```typescript
+import { useState, useEffect } from 'react';
+import { BendSDK } from '@berachain/bend-sdk';
+
+// Hook for user account data
+export function useUserAccount() {
+  const [accountData, setAccountData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { signer } = useWallet(); // Your wallet hook
+  
+  useEffect(() => {
+    async function fetchData() {
+      const bend = new BendSDK({...});
+      const address = await signer.getAddress();
+      const data = await bend.getUserAccountData(address);
+      setAccountData(data);
+      setLoading(false);
+    }
+    
+    fetchData();
+    const interval = setInterval(fetchData, 15000); // Update every 15s
+    
+    return () => clearInterval(interval);
+  }, [signer]);
+  
+  return { accountData, loading };
+}
+
+// Hook for health factor monitoring
+export function useHealthFactor() {
+  const [healthFactor, setHealthFactor] = useState(0);
+  const [status, setStatus] = useState('unknown');
+  const { accountData } = useUserAccount();
+  
+  useEffect(() => {
+    if (accountData) {
+      const hf = parseFloat(ethers.utils.formatEther(accountData.healthFactor));
+      setHealthFactor(hf);
+      
+      if (hf > 1.5) setStatus('safe');
+      else if (hf > 1.2) setStatus('moderate');
+      else if (hf > 1.0) setStatus('warning');
+      else setStatus('danger');
+    }
+  }, [accountData]);
+  
+  return { healthFactor, status };
+}
+```
+
+### Supply/Borrow Component
+
+```typescript
+function BendInterface() {
+  const [amount, setAmount] = useState('');
+  const { accountData } = useUserAccount();
+  const { healthFactor, status } = useHealthFactor();
+  
+  const handleSupply = async () => {
+    const tx = await bend.supply({
+      asset: HONEY_ADDRESS,
+      amount: ethers.utils.parseEther(amount),
+      onBehalfOf: await signer.getAddress()
+    });
+    await tx.wait();
+  };
+  
+  const handleBorrow = async () => {
+    const tx = await bend.borrow({
+      asset: HONEY_ADDRESS,
+      amount: ethers.utils.parseEther(amount),
+      interestRateMode: 2,
+      onBehalfOf: await signer.getAddress()
+    });
+    await tx.wait();
+  };
+  
+  return (
+    <div>
+      <div className="health-indicator">
+        <span>Health Factor: {healthFactor.toFixed(2)}</span>
+        <span className={`status-${status}`}>{status}</span>
+      </div>
+      
+      <input
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        placeholder="Amount"
+      />
+      
+      <button onClick={handleSupply}>Supply</button>
+      <button onClick={handleBorrow}>Borrow</button>
+      
+      <div className="account-info">
+        <p>Total Collateral: {accountData?.totalCollateralETH}</p>
+        <p>Total Debt: {accountData?.totalDebtETH}</p>
+        <p>Available to Borrow: {accountData?.availableBorrowsETH}</p>
+      </div>
+    </div>
+  );
+}
+```
+
+## Direct Contract Interaction
+
+### Lending Pool Contract
+
+```solidity
+interface ILendingPool {
+    function supply(
+        address asset,
+        uint256 amount,
+        address onBehalfOf,
+        uint16 referralCode
+    ) external;
+    
+    function borrow(
+        address asset,
+        uint256 amount,
+        uint256 interestRateMode,
+        uint16 referralCode,
+        address onBehalfOf
+    ) external;
+    
+    function repay(
+        address asset,
+        uint256 amount,
+        uint256 interestRateMode,
+        address onBehalfOf
+    ) external returns (uint256);
+    
+    function withdraw(
+        address asset,
+        uint256 amount,
+        address to
+    ) external returns (uint256);
+}
+```
+
+### Using ethers.js
+
+```javascript
+const LENDING_POOL_ADDRESS = "0x...";
+const LENDING_POOL_ABI = [...];
+
+const lendingPool = new ethers.Contract(
+  LENDING_POOL_ADDRESS,
+  LENDING_POOL_ABI,
+  signer
+);
+
+// Supply
+await lendingPool.supply(
+  assetAddress,
+  amount,
+  userAddress,
+  0 // referral code
+);
+
+// Borrow
+await lendingPool.borrow(
+  assetAddress,
+  amount,
+  2, // variable rate
+  0, // referral code
+  userAddress
+);
+```
+
+## Advanced Features
+
+### Flash Loans
+
+Execute flash loans for arbitrage or liquidations:
+
+```javascript
+async function executeFlashLoan() {
+  const asset = HONEY_ADDRESS;
+  const amount = ethers.utils.parseEther("10000");
+  
+  // Deploy a flash loan receiver contract
+  const receiverAddress = "0x..."; // Your flash loan receiver
+  
+  const tx = await bend.flashLoan({
+    receiverAddress,
+    assets: [asset],
+    amounts: [amount],
+    modes: [0], // 0 = no debt, must repay
+    onBehalfOf: await signer.getAddress(),
+    params: "0x" // Custom params for your receiver
+  });
+  
+  await tx.wait();
+}
+```
+
+### Liquidation Bot
+
+Monitor and execute liquidations:
+
+```javascript
+async function checkLiquidationOpportunities() {
+  // Get all users with low health factors
+  const unhealthyUsers = await bend.getUsersWithHealthFactorBelow(
+    ethers.utils.parseEther("1.0")
+  );
+  
+  for (const user of unhealthyUsers) {
+    const accountData = await bend.getUserAccountData(user.address);
+    
+    if (accountData.healthFactor.lt(ethers.utils.parseEther("1.0"))) {
+      console.log("Liquidation opportunity:", user.address);
+      
+      // Execute liquidation
+      await liquidateUser(user.address, accountData);
+    }
+  }
+}
+
+async function liquidateUser(userAddress, accountData) {
+  // Calculate optimal liquidation
+  const debtToCover = accountData.totalDebtETH.div(2); // Max 50%
+  
+  const tx = await bend.liquidationCall({
+    collateralAsset: BERA_ADDRESS,
+    debtAsset: HONEY_ADDRESS,
+    user: userAddress,
+    debtToCover,
+    receiveAToken: false
+  });
+  
+  await tx.wait();
+  console.log("Liquidation executed:", tx.hash);
+}
+```
+
+## Error Handling
+
+```javascript
+async function safeSupply(asset, amount) {
+  try {
+    const tx = await bend.supply({ asset, amount, onBehalfOf: await signer.getAddress() });
+    await tx.wait();
+    return { success: true, tx };
+  } catch (error) {
+    if (error.message.includes("insufficient allowance")) {
+      console.error("Need to approve tokens first");
+    } else if (error.message.includes("insufficient balance")) {
+      console.error("Not enough tokens");
+    } else if (error.message.includes("reserve inactive")) {
+      console.error("Market is paused or inactive");
+    } else {
+      console.error("Unknown error:", error);
+    }
+    return { success: false, error };
+  }
+}
+```
+
+## Best Practices
+
+<Check>**Check Allowances**: Always verify and set token approvals before operations</Check>
+<Check>**Monitor Health Factor**: Implement real-time monitoring for borrow positions</Check>
+<Check>**Handle Errors**: Gracefully handle transaction failures and edge cases</Check>
+<Check>**Use SDK Methods**: Prefer SDK methods over direct contract calls when possible</Check>
+<Check>**Test Thoroughly**: Test all integrations on testnet before mainnet deployment</Check>
+
+## Resources
+
+<CardGroup cols={2}>
+  <Card
+    title="SDK Reference"
+    icon="book"
+    href="/bend/developers/sdk-reference"
+  >
+    Complete SDK documentation
+  </Card>
+  <Card
+    title="Contract Addresses"
+    icon="file-contract"
+    href="/bend/contracts/addresses"
+  >
+    All Bend contract addresses
+  </Card>
+  <Card
+    title="Example Projects"
+    icon="github"
+    href="https://github.com/berachain/bend-examples"
+  >
+    Sample integration code
+  </Card>
+  <Card
+    title="Support"
+    icon="life-ring"
+    href="https://discord.gg/berachain"
+  >
+    Get help from the community
+  </Card>
+</CardGroup>
+

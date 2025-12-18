@@ -1,0 +1,85 @@
+---
+title: "Proof-of-Liquidity"
+description: "Understanding Berachain's innovative consensus mechanism"
+---
+
+## What is Proof-of-Liquidity? 🤝
+
+Proof-of-Liquidity (PoL) is a novel economic mechanism that uses network incentives to align the interests of ecosystem participants and bolster both the application-layer and chain security.
+
+## Two Token Model
+
+Berachain's consensus borrows from the Proof-of-Stake (PoS) model and contains two key components:
+
+1. **$BERA** - Validators secure the chain by staking the native gas token
+2. **$BGT** - A soulbound governance token distributed by validators for proposing new blocks, which is ultimately rewarded to users who provide ecosystem liquidity (see [Reward Vaults](/berachain/learn/proof-of-liquidity#reward-vaults))
+
+A validator's $BGT emissions increase with the amount of $BGT delegated to them. Protocol-provided Incentives are received for these emissions, and validators pass these to their delegators after collecting a commission.
+
+This model creates meaningful economic alignment between previously isolated groups. Validators who return the maximum value to their $BGT delegators are likely to receive more delegations.
+
+### Separation of Concerns
+
+Significantly, Proof-of-Liquidity separates the token responsible for gas and security from the token used to govern chain rewards and economic incentives.
+
+## Core Components
+
+### BGT Distribution
+
+As discussed in block rewards, $BGT emissions stem from the block production process. The variable component of $BGT emissions per block is determined by the proposing validator's $BGT delegation (also referred to as "boost").
+
+### Incentive Marketplace
+
+The Incentive Marketplace creates a market-driven liquidity incentive system where protocols compete for validators' $BGT allocations.
+
+### Reward Vaults
+
+RewardVaults act as the core PoL integration point. They:
+
+- Receive $BGT emissions from the Distributor
+- Allow protocols to add Incentive Tokens with a minimum incentive rate per 1 $BGT emitted
+- Manage token staking and $BGT distribution to liquidity providers/users
+
+Validators are incentivized to allocate $BGT to vaults offering higher protocol incentives, as they receive these rewards proportionally to the $BGT allocated. This creates the "marketplace" dynamic where protocols compete by offering better incentives to attract more $BGT allocations.
+
+<Tip>
+RewardVault creation is permissionless, but vaults must be approved (whitelisted) by governance to be included in validators' reward allocations.
+</Tip>
+
+## PoL Lifecycle
+
+### 1. Validator Lifecycle
+
+The journey begins when a Prospective Validator stakes their $BERA as a security bond. Validators are chosen to propose blocks with a probability proportional to their staked amount. For each block proposed, the validator receives both a base emission and a variable reward emission based on their boost percentage.
+
+### 2. Block Reward Distribution
+
+After collecting the base $BGT rewards for themselves, validators direct the remaining variable $BGT rewards to whitelisted Reward Vaults of their choosing. In exchange for directing their emissions, validators receive protocol-provided Incentives from Reward Vaults (the $BGT is earned by users supplying liquidity to the protocol).
+
+### 3. Liquidity Provider Flow
+
+The ecosystem's liquidity providers (i.e., users) play a crucial role in PoL. Users can provide liquidity to protocols like BEX and receive receipt tokens as proof of their contribution. These receipt tokens are then staked in Reward Vaults, where users earn $BGT proportional to their share of the vault.
+
+### 4. Delegation Cycle
+
+As $BGT Holders accumulate tokens, they can delegate them to validators, directly influencing the validator's boost. This creates a virtuous cycle where higher delegation leads to increased validator boost, resulting in larger $BGT emissions when that validator proposes blocks. Validators are incentivized to share their received protocol Incentives with delegators to attract more boosts, fostering a collaborative ecosystem.
+
+## Learn More
+
+<CardGroup cols={2}>
+  <Card
+    title="Validator Guide"
+    icon="shield-check"
+    href="/berachain/validators/overview"
+  >
+    Learn how to become a validator
+  </Card>
+  <Card
+    title="Tokenomics"
+    icon="chart-line"
+    href="/berachain/learn/tokenomics"
+  >
+    Deep dive into token economics
+  </Card>
+</CardGroup>
+

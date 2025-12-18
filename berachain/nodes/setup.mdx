@@ -1,0 +1,305 @@
+---
+title: "Node Setup"
+description: "Setup a Berachain Node"
+---
+
+# Berachain Node Quickstart
+
+This guide will walk you through setting up an RPC node on a Linux or Mac computer. If you want to operate Berachain in a production environment, this guide will help you learn how the final system will operate.
+
+For true production deployments, consider using the docker images accompanying our releases, or [the community-maintained ansible scripts](https://github.com/RhinoStake/ansible-berachain).
+
+## Configurations
+
+This quickstart describes both **mainnet** and **Bepolia** deployments. There are certain scenarios, specifically experimenting with validator and beacon-chain technology, where you're better off with a local devnet from Beacon-Kit source.
+
+The scripts use a number of environment variables, created in `env.sh`, to store configuration preferences. Each execution client has its own approach to configuration, reflected in its `setup` and `run` scripts.
+
+### Hardware Requirements
+
+The following are required to run both the execution and consensus clients:
+
+- **OS**: Linux AMD64, Linux ARM64
+- **CPU**: 4 Physical Cores
+- **RAM**: 16GB
+- **Storage**: 1TB minimum; more for a long-term installation
+- **Storage performance:** Local SSD or on-instance storage is best; for network volumes, provision at least 1000 IOPS
+
+### Software Requirements
+
+You need [Beacon Kit](https://github.com/berachain/beacon-kit/releases) and one of either [Bera-Reth](https://github.com/berachain/bera-reth/releases) or [Bera-Geth](https://github.com/berachain/bera-geth/releases). Consult the EVM execution page for the recommended versions of Beacon Kit and execution clients.
+
+These clients are easily compiled for experiments on a laptop.
+
+## 1 - Download and Configure
+
+Make an area to work in. If you're a Unix traditionalist, choose `/opt/beranode`. Then, clone the berachain node scripts.
+
+```bash
+# FROM: $HOME
+
+mkdir beranode;
+cd beranode;
+git clone https://github.com/berachain/guides;
+mv guides/apps/node-scripts/* ./;
+rm -r guides;
+ls;
+
+# [Expected output, edited for clarity]
+# README.md	                  run-geth.sh     setup-geth.sh
+# env.sh                      run-reth.sh     setup-reth.sh
+# fetch-berachain-params.sh	  run-beacond.sh  setup-beacond.sh
+```
+
+The file `env.sh` contains environment variables used in the other scripts.
+`fetch-berachain-params.sh` obtains copies of the genesis file and other configuration files.
+Then we have `setup-` and `run-` scripts for various execution clients and `beacond`.
+
+**File:** `./env.sh` (simplified)
+
+```bash
+#!/bin/bash
+
+# CHANGE THESE VALUES
+export CHAIN_SPEC=mainnet   # or "testnet"
+export MONIKER_NAME=camembera
+export WALLET_ADDRESS_FEE_RECIPIENT=0x9BcaA41DC32627776b1A4D714Eef627E640b3EF5
+export EL_ARCHIVE_NODE=false # set to true if you want to run an archive node on CL and EL
+export MY_IP=`curl -s canhazip.com`
+
+# VALUES YOU MIGHT WANT TO CHANGE
+export LOG_DIR=$(pwd)/logs
+export JWT_PATH=$BEACOND_CONFIG/jwt.hex
+export BEACOND_BIN=$(command -v beacond || echo $(pwd)/beacond)
+export BEACOND_DATA=$(pwd)/var/beacond
+export RETH_BIN=$(command -v bera-reth || echo $(pwd)/bera-reth)
+export GETH_BIN=$(command -v bera-geth || echo $(pwd)/bera-geth)
+```
+
+You need to set these constants:
+
+1. **CHAIN_SPEC**: Set to `testnet` or `mainnet`.
+2. **MONIKER_NAME**: Should be a name of your choice for your node.
+3. **WALLET_ADDRESS_FEE_RECIPIENT**: This is the address that will receive the priority fees for blocks sealed by your node. If your node will not be a validator, this won't matter.
+4. **EL_ARCHIVE_NODE**: Set to `true` if you want the execution client to be a full archive node.
+5. **MY_IP**: This sets the IP address your chain clients advertise to other peers on the network. If you leave it blank, `geth` and `reth` will discover the address with UPnP (if you are behind a NAT gateway) or assign the node's ethernet IP (which is OK if your computer is directly on the internet and has a public IP). In a cloud environment such as AWS or GCP where you are behind a NAT gateway, you **must** specify this address or allow the default `curl canhazip.com` to auto-detect it.
+
+## 2 - Fetch Parameters
+
+The `fetch-berachain-params.sh` script downloads the key network parameters for the chain you have configured. Invoke the script as follows to download the files and verify their integrity:
+
+```bash
+# FROM: ~/beranode
+
+./fetch-berachain-params.sh;
+```
+
+Check the signatures against your results.
+
+## 3 - Set Up Beacon-Kit
+
+The script `setup-beacond.sh` invokes `beacond init` and `beacond jwt generate`. This script:
+
+1. runs `beacond init` to create the file `var/beacond/config/priv_validator_key.json`. This contains your node's private key, and especially if you intend to become a validator, this file should be kept safe. It cannot be regenerated, and losing it means you will not be able to participate in the consensus process.
+2. runs `beacond jwt generate` to create the file `jwt.hex`. This contains a secret shared between the consensus client and execution client so they can securely communicate. Protect this file. If you suspect it has been leaked, delete it then generate a new one with `beacond jwt generate -o $JWT_PATH`.
+3. rewrites the `beacond` configuration files to reflect settings chosen in `env.sh`.
+4. places the mainnet parameters, fetched above, where Beacon-Kit expects them and shows you an important hash from the genesis file.
+
+```bash
+# FROM: ~/beranode
+
+./setup-beacond.sh;
+```
+
+Your validator state root **must** agree with the value shown above for your chosen chain.
+
+## 4 - Set Up the Execution Client
+
+The `setup-reth` and `setup-geth` scripts create a runtime directory and configuration for their respective chain clients. The scripts configure the node with pruning settings according to the `EL_ARCHIVE_NODE` setting in `env.sh`.
+
+Here's an example of `setup-reth`:
+
+```bash
+# FROM: ~/beranode
+
+./setup-reth.sh;
+```
+
+Your genesis block hash **must** agree with the above for your chosen chain.
+
+## 5 - Fetch Snapshots (Optional)
+
+Snapshots are collections of files from a node's backend that represent its state at a specific time.
+
+They are useful for fixing nodes that become corrupted, or when spinning up a new node. Restoring a snapshot is much faster than syncing from the network.
+
+Snapshots can be applied to both the consensus (beacond) and execution clients. In fact, syncing can be significantly faster when you restore both snapshots simultaneously.
+
+This tutorial fetches pruned snapshots. The script can fetch archive snapshots, too.
+
+### 5a - Obtain Snapshot
+
+Berachain and the community offer snapshots for Mainnet and Bepolia. You can download snapshots at the following links.
+
+- [Awesome Berachain Validators](https://github.com/chuck-bear/awesome-berachain-validators) is a community-maintained list; all of them have great download speed.
+
+- Or, you can use Berachain official snaps which are capped to 10 Mbyte/sec. Review the script `fetch-berachain-snapshots.js`. The key variables are at the top:
+
+**File:** `~/beranode/fetch-berachain-snapshots.js`
+
+```nodejs
+const snapshot_chain = "bera-testnet-snapshot" || "bera-snapshot";
+const el_client = 'reth' || 'geth';
+const geography = "na" || 'eu' || 'as';        // North America, EU, Asia
+const snapshot_type = "pruned" || "archive";
+```
+
+Revise the file as appropriate for your situation and geography, then run it:
+
+```bash
+# FROM: ~/beranode
+
+node fetch-berachain-snapshots.js;
+```
+
+The download may take a while.
+
+### 5b - Stop Clients
+
+Shut down `beacond` and your Execution Layer.
+
+### 5c - Clean Existing Chain Data
+
+To clean the Beacon Kit and — to pick an example — reth data store:
+
+```bash
+# FROM: ~/beranode
+
+source env.sh;
+$BEACOND_BIN --home $BEACOND_HOME comet unsafe-reset-all;
+
+ls var/reth;
+
+rm -r var/reth/data;
+```
+
+### 5d - Install Beacon-Kit Snapshot
+
+The snapshots distributed by Berachain are designed to be installed in the beacond home directory, which contains both `config` and `data`:
+
+```bash
+# FROM: ~/beranode
+
+lz4 -d downloads/snapshot_beacond_reth_...tar.lz4 | tar xv  -C var/beacond/;
+```
+
+### 5e - Install Execution Layer Snapshot
+
+The example below uses `reth`:
+
+```bash
+# FROM: ~/beranode
+
+lz4 -d downloads/snapshot_reth_pruned...tar.lz4 | tar xv -C var/reth/;
+```
+
+## 6 - Fetch Address Book (Optional)
+
+The `beacond` address book contains a list of nodes to communicate with. Starting with one dramatically improves startup time.
+
+```bash
+# FROM: ~/beranode
+
+# MAINNET
+wget https://storage.googleapis.com/bera-snapshot-na/addrbook.json -O var/beacond/config/addrbook.json
+
+# TESTNET
+wget https://storage.googleapis.com/bera-testnet-snapshot-na/addrbook.json -O var/beacond/config/addrbook.json
+```
+
+## 7 - Run Both Clients
+
+The following two scripts run the consensus and execution clients.
+
+Launch two terminal windows. In the first, run the consensus client:
+
+```bash
+# FROM: ~/beranode
+
+./run-beacond.sh;
+```
+
+In the second, run the execution client (corresponding to the one you chose). Here it is for Bera-Reth:
+
+```bash
+# FROM: ~/beranode
+
+./run-reth.sh;
+```
+
+Initially this will not appear to respond, but within a minute blocks should begin flowing. There should not be a significant number of error messages, except for occasional minor complaints about disconnecting or slow peers.
+
+## 8 - Testing Your Node
+
+### 8a - Check Sync Status
+
+To check on the sync status of the consensus layer, in another terminal run the following which will retrieve the current block height from the consensus client:
+
+```bash
+# FROM: ~/beranode
+
+set -e
+. ./env.sh
+
+# Don't have jq? `brew install jq`
+$BEACOND_BIN --home=$BEACOND_DATA status | jq;
+```
+
+If `catching_up` is set to `true`, it is still syncing.
+
+### 8b - Testing Local RPC Node
+
+Now that our RPC is running, let's verify that the network is working by performing a few RPC requests.
+
+<Tip>
+Make sure that your node is fully synced before proceeding with these steps.
+</Tip>
+
+### 8c - EL Block Number
+
+```bash
+curl --location 'http://localhost:8545' \
+--header 'Content-Type: application/json' \
+--data '{
+	"jsonrpc":"2.0",
+	"method":"eth_blockNumber",
+	"params":[],
+	"id":420
+}';
+```
+
+### 8d - CL Block Number
+
+```bash
+curl -s http://localhost:26657/status | jq '.result.sync_info.latest_block_height';
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Become a Validator"
+    icon="shield-check"
+    href="/berachain/validators/overview"
+  >
+    Learn how to validate on Berachain
+  </Card>
+  <Card
+    title="Node API Reference"
+    icon="code"
+    href="/berachain/developers/api"
+  >
+    Explore the node API
+  </Card>
+</CardGroup>
+

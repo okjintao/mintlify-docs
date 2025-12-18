@@ -1,0 +1,312 @@
+---
+title: "Providing Liquidity"
+description: "Earn rewards by providing liquidity to BEX pools"
+---
+
+## What is Liquidity Providing?
+
+Liquidity providers (LPs) deposit tokens into BEX pools, enabling traders to swap tokens. In return, LPs earn:
+
+- **Trading fees** from every swap
+- **BGT emissions** through Proof-of-Liquidity
+- **Additional rewards** from incentive programs
+
+<Tip>
+  Providing liquidity on BEX is one of the best ways to earn BGT tokens and participate in Berachain governance.
+</Tip>
+
+## How to Provide Liquidity
+
+<Steps>
+  <Step title="Choose a Pool">
+    Navigate to the "Pools" section on BEX and select a pool to provide liquidity to
+  </Step>
+  
+  <Step title="Check Requirements">
+    Review the pool's token ratio and required amounts. You'll need both tokens in the correct proportion.
+  </Step>
+  
+  <Step title="Enter Amounts">
+    Enter the amount of one token, and the interface will automatically calculate the required amount of the other token.
+  </Step>
+  
+  <Step title="Approve Tokens">
+    Approve BEX to spend your tokens (one-time approval per token)
+  </Step>
+  
+  <Step title="Add Liquidity">
+    Confirm the transaction and receive LP tokens representing your pool share
+  </Step>
+</Steps>
+
+## Understanding LP Tokens
+
+When you provide liquidity, you receive LP (Liquidity Provider) tokens that represent:
+
+- Your share of the pool
+- Your claim to trading fees
+- Your eligibility for BGT rewards
+
+<Note>
+  LP tokens can be staked, transferred, or used as collateral in other DeFi protocols (with care).
+</Note>
+
+## Earning Rewards
+
+### Trading Fees
+
+Earn a share of every trade proportional to your pool share:
+
+```
+Your Fee Earnings = (Your LP Tokens / Total LP Tokens) × Trading Fees
+```
+
+Example:
+- Pool has $1M total liquidity
+- You provide $10K (1% of pool)
+- Pool generates $1000 in daily fees
+- You earn $10/day in fees (1% of $1000)
+
+### BGT Emissions
+
+Through Proof-of-Liquidity, LPs earn BGT based on:
+
+1. **Pool Weight**: How much BGT is allocated to your pool
+2. **Your Share**: Your percentage of the pool
+3. **Validator**: Which validator directs BGT to the pool
+
+<CardGroup cols={2}>
+  <Card title="High APR Pools" icon="arrow-trend-up">
+    New or incentivized pools with high BGT emissions (20-100%+ APR)
+  </Card>
+  <Card title="Stable Pools" icon="chart-line">
+    Established pools with steady, lower APRs (5-20%)
+  </Card>
+</CardGroup>
+
+## Pool Types
+
+### Standard Constant Product Pools (50/50)
+
+Most common pool type with equal value of both tokens:
+
+```
+Pool Composition:
+- 50% Token A
+- 50% Token B
+
+Example: $1000 BERA + $1000 HONEY
+```
+
+**Best for**: Most trading pairs with moderate volatility
+
+### Stable Pools
+
+Optimized for assets with similar values:
+
+```
+Examples:
+- HONEY/USDC
+- USDT/USDC
+- wETH/stETH
+```
+
+**Advantages**:
+- Minimal impermanent loss
+- Lower fees but higher volume
+- More capital efficient
+
+### Weighted Pools
+
+Multi-token pools with custom weights:
+
+```
+Example:
+- 50% BERA
+- 25% wETH
+- 25% wBTC
+```
+
+**Best for**: Index tokens and diversified exposure
+
+### Concentrated Liquidity
+
+Provide liquidity in specific price ranges for maximum capital efficiency:
+
+```
+Example:
+- HONEY/USDC in range $0.98 - $1.02
+- 10x more capital efficient than full-range
+```
+
+<Warning>
+  Concentrated liquidity requires active management and has higher impermanent loss risk if price moves outside your range.
+</Warning>
+
+## Understanding Impermanent Loss
+
+Impermanent loss occurs when the price ratio of your deposited tokens changes:
+
+### Example Scenario
+
+```
+Initial Deposit:
+- 1 ETH @ $2000 = $2000
+- 2000 HONEY @ $1 = $2000
+- Total Value: $4000
+
+Price Changes:
+- ETH rises to $3000
+- HONEY stays at $1
+
+If you held: $3000 + $2000 = $5000
+Pool value: ~$4900
+Impermanent Loss: ~2%
+```
+
+<Note>
+  Trading fees and BGT rewards often offset impermanent loss, especially in high-volume pools.
+</Note>
+
+### Minimizing Impermanent Loss
+
+1. **Choose stable pairs**: Like HONEY/USDC
+2. **Use concentrated liquidity**: Set tight ranges for stablecoins
+3. **Focus on high-fee pools**: Fees offset IL faster
+4. **Consider weighted pools**: Reduce exposure to volatile assets
+
+## Advanced Strategies
+
+### Yield Optimization
+
+<AccordionGroup>
+  <Accordion title="Pool Hopping">
+    Move liquidity to pools with highest BGT emissions (changes based on governance votes)
+  </Accordion>
+  
+  <Accordion title="Range Optimization">
+    For concentrated liquidity, adjust ranges based on price movements to stay in-range
+  </Accordion>
+  
+  <Accordion title="Fee Tier Selection">
+    Choose higher fee tiers for volatile pairs, lower for stable pairs
+  </Accordion>
+</AccordionGroup>
+
+### Liquidity Mining
+
+Maximize BGT earnings by:
+
+1. **Choosing high-weight pools**: Check which pools receive most BGT
+2. **Staking LP tokens**: In governance-approved vaults
+3. **Delegating BGT**: To validators who boost your pools
+
+### Portfolio Approach
+
+Diversify across multiple pools:
+
+```
+Conservative Portfolio:
+- 60% Stablecoin pools (HONEY/USDC)
+- 30% Major pairs (BERA/ETH)
+- 10% High-yield volatile pairs
+
+Aggressive Portfolio:
+- 20% Stablecoin pools
+- 40% Major pairs
+- 40% High-yield volatile pairs
+```
+
+## Managing Your Liquidity
+
+### Adding More Liquidity
+
+You can add more liquidity anytime:
+- No fees for adding
+- Receive proportional LP tokens
+- Automatically starts earning
+
+### Removing Liquidity
+
+To withdraw your funds:
+
+<Steps>
+  <Step title="Navigate to Pool">
+    Go to your pool position in the "Portfolio" section
+  </Step>
+  
+  <Step title="Select Amount">
+    Choose how much to withdraw (25%, 50%, 75%, or 100%)
+  </Step>
+  
+  <Step title="Confirm">
+    Confirm the transaction and receive your tokens back plus accumulated fees
+  </Step>
+</Steps>
+
+<Warning>
+  Removing liquidity doesn't automatically claim your BGT rewards. Make sure to claim them separately!
+</Warning>
+
+## Analytics and Monitoring
+
+Track your LP performance:
+
+| Metric | Description | Where to Find |
+|--------|-------------|---------------|
+| APR | Annual percentage return | Pool page |
+| Daily Volume | Trading volume in pool | Analytics dashboard |
+| TVL | Total value locked | Pool page |
+| Your Share | % of pool you own | Portfolio |
+| Fees Earned | Accumulated trading fees | Portfolio |
+| BGT Earned | Accumulated BGT rewards | Rewards page |
+
+<Card
+  title="BEX Analytics"
+  icon="chart-bar"
+  href="https://analytics.bex.berachain.com"
+>
+  View detailed pool analytics and performance metrics
+</Card>
+
+## Safety & Best Practices
+
+<Check>**Verify pool addresses**: Make sure you're depositing in official pools</Check>
+<Check>**Start small**: Test with small amounts before committing large capital</Check>
+<Check>**Diversify**: Don't put all liquidity in one pool</Check>
+<Check>**Monitor regularly**: Check pool health and adjust as needed</Check>
+<Check>**Understand risks**: Be aware of impermanent loss and smart contract risks</Check>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Claim BGT Rewards"
+    icon="gift"
+    href="/bex/guides/bgt-rewards"
+  >
+    Learn how to claim and use BGT
+  </Card>
+  <Card
+    title="Pool Analytics"
+    icon="magnifying-glass-chart"
+    href="/bex/guides/analytics"
+  >
+    Analyze pool performance
+  </Card>
+  <Card
+    title="LP Strategies"
+    icon="chess"
+    href="/bex/guides/advanced-strategies"
+  >
+    Advanced liquidity strategies
+  </Card>
+  <Card
+    title="Developer Integration"
+    icon="code"
+    href="/bex/developers/liquidity"
+  >
+    Integrate LP functionality
+  </Card>
+</CardGroup>
+

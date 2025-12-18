@@ -1,0 +1,95 @@
+---
+title: "BEX Smart Contracts"
+description: "Overview of BEX protocol contracts"
+---
+
+## Core Contracts
+
+BEX consists of several core smart contracts that work together to provide decentralized exchange functionality.
+
+### BexRouter
+
+The main entry point for all trading operations.
+
+**Address (Testnet)**: `0x...` (Coming Soon)
+**Address (Mainnet)**: `0x...` (Coming Soon)
+
+**Key Functions:**
+- `swapExactTokensForTokens()` - Swap exact input amount
+- `swapTokensForExactTokens()` - Swap for exact output amount
+- `addLiquidity()` - Add liquidity to pools
+- `removeLiquidity()` - Remove liquidity from pools
+
+### BexFactory
+
+Creates and manages liquidity pools.
+
+**Address (Testnet)**: `0x...` (Coming Soon)
+
+**Key Functions:**
+- `createPair()` - Create new trading pair
+- `getPair()` - Get pair address for two tokens
+- `allPairs()` - List all pairs
+
+### BexPair
+
+Individual liquidity pool contract for each trading pair.
+
+**Key Functions:**
+- `swap()` - Execute swap within pool
+- `mint()` - Mint LP tokens (add liquidity)
+- `burn()` - Burn LP tokens (remove liquidity)
+- `getReserves()` - Get current token reserves
+
+## Contract Addresses
+
+### Testnet (Artio)
+
+| Contract | Address |
+|----------|---------|
+| BexRouter | `0x...` |
+| BexFactory | `0x...` |
+| WBERA | `0x...` |
+
+### Mainnet (Coming Soon)
+
+Mainnet addresses will be published upon launch.
+
+## Verified Contracts
+
+All BEX contracts are verified on Beratrail:
+
+- [View on Beratrail](https://artio.beratrail.io)
+
+## Security
+
+### Audits
+
+BEX has been audited by leading security firms:
+
+- [Audit Report 1](https://example.com)
+- [Audit Report 2](https://example.com)
+
+### Bug Bounty
+
+We maintain an active bug bounty program. Report security issues:
+
+- Email: security@berachain.com
+- Max Bounty: $100,000
+
+## Integration
+
+See our [Integration Guide](/bex/developers/integration) for detailed examples of interacting with these contracts.
+
+## Source Code
+
+View the source code on GitHub:
+
+<Card
+  title="BEX Contracts"
+  icon="github"
+  href="https://github.com/berachain/bex"
+>
+  View on GitHub
+</Card>
+

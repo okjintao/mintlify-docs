@@ -1,0 +1,459 @@
+---
+title: "BEX Integration Guide"
+description: "Integrate BEX trading into your application"
+---
+
+## Overview
+
+This guide walks you through integrating BEX functionality into your dApp, including token swaps, liquidity provision, and price queries.
+
+## Quick Start
+
+### Installation
+
+Install the BEX SDK:
+
+<CodeGroup>
+
+```bash npm
+npm install @berachain/bex-sdk ethers
+```
+
+```bash yarn
+yarn add @berachain/bex-sdk ethers
+```
+
+```bash pnpm
+pnpm add @berachain/bex-sdk ethers
+```
+
+</CodeGroup>
+
+### Basic Setup
+
+```javascript
+import { BexSDK, ChainId } from '@berachain/bex-sdk';
+import { ethers } from 'ethers';
+
+// Initialize provider and SDK
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+
+const bex = new BexSDK({
+  chainId: ChainId.ARTIO_TESTNET,
+  provider,
+  signer
+});
+```
+
+## Token Swaps
+
+### Simple Swap
+
+Execute a basic token swap:
+
+```javascript
+async function swapTokens() {
+  const tokenIn = "0x..."; // BERA token address
+  const tokenOut = "0x..."; // HONEY token address
+  const amountIn = ethers.utils.parseEther("10"); // 10 BERA
+  
+  // Get quote
+  const quote = await bex.swap.getQuote({
+    tokenIn,
+    tokenOut,
+    amountIn
+  });
+  
+  console.log("Expected output:", ethers.utils.formatEther(quote.amountOut));
+  console.log("Price impact:", quote.priceImpact);
+  
+  // Execute swap
+  const tx = await bex.swap.execute({
+    tokenIn,
+    tokenOut,
+    amountIn,
+    amountOutMin: quote.amountOutMin, // With slippage
+    recipient: await signer.getAddress(),
+    deadline: Math.floor(Date.now() / 1000) + 1200 // 20 minutes
+  });
+  
+  await tx.wait();
+  console.log("Swap completed:", tx.hash);
+}
+```
+
+### Multi-Hop Swap
+
+The SDK automatically routes through multiple pools:
+
+```javascript
+async function multiHopSwap() {
+  const quote = await bex.swap.getQuote({
+    tokenIn: BERA_ADDRESS,
+    tokenOut: USDC_ADDRESS,
+    amountIn: ethers.utils.parseEther("100")
+  });
+  
+  // Quote includes routing information
+  console.log("Route:", quote.route); 
+  // e.g., ["BERA", "HONEY", "USDC"]
+  
+  console.log("Pools used:", quote.pools);
+  // e.g., ["BERA-HONEY", "HONEY-USDC"]
+}
+```
+
+### Custom Slippage
+
+Set custom slippage tolerance:
+
+```javascript
+const quote = await bex.swap.getQuote({
+  tokenIn,
+  tokenOut,
+  amountIn,
+  slippageTolerance: 50 // 0.5% (in basis points)
+});
+```
+
+## Price Queries
+
+### Get Token Price
+
+```javascript
+async function getPrice() {
+  // Get price of HONEY in terms of BERA
+  const price = await bex.prices.getPrice({
+    tokenIn: HONEY_ADDRESS,
+    tokenOut: BERA_ADDRESS
+  });
+  
+  console.log("1 HONEY =", ethers.utils.formatEther(price), "BERA");
+}
+```
+
+### Get Historical Prices
+
+```javascript
+async function getHistoricalPrices() {
+  const prices = await bex.prices.getHistoricalPrices({
+    tokenIn: HONEY_ADDRESS,
+    tokenOut: BERA_ADDRESS,
+    interval: '1h',
+    from: Date.now() - 86400000, // 24 hours ago
+    to: Date.now()
+  });
+  
+  prices.forEach(point => {
+    console.log(new Date(point.timestamp), point.price);
+  });
+}
+```
+
+### Price Impact Calculator
+
+```javascript
+async function calculatePriceImpact() {
+  const impact = await bex.swap.calculatePriceImpact({
+    tokenIn: BERA_ADDRESS,
+    tokenOut: HONEY_ADDRESS,
+    amountIn: ethers.utils.parseEther("1000")
+  });
+  
+  console.log("Price impact:", impact.toFixed(2) + "%");
+  
+  if (impact > 3) {
+    console.warn("High price impact! Consider smaller trade.");
+  }
+}
+```
+
+## Liquidity Provision
+
+### Add Liquidity
+
+```javascript
+async function addLiquidity() {
+  const tokenA = BERA_ADDRESS;
+  const tokenB = HONEY_ADDRESS;
+  const amountA = ethers.utils.parseEther("10");
+  const amountB = ethers.utils.parseEther("10");
+  
+  // Get optimal amounts (handles ratio automatically)
+  const amounts = await bex.liquidity.calculateOptimalAmounts({
+    tokenA,
+    tokenB,
+    amountADesired: amountA,
+    amountBDesired: amountB
+  });
+  
+  // Add liquidity
+  const tx = await bex.liquidity.add({
+    tokenA,
+    tokenB,
+    amountADesired: amounts.amountA,
+    amountBDesired: amounts.amountB,
+    amountAMin: amounts.amountAMin, // With slippage
+    amountBMin: amounts.amountBMin,
+    recipient: await signer.getAddress(),
+    deadline: Math.floor(Date.now() / 1000) + 1200
+  });
+  
+  const receipt = await tx.wait();
+  console.log("Liquidity added, LP tokens:", receipt.events.lpTokens);
+}
+```
+
+### Remove Liquidity
+
+```javascript
+async function removeLiquidity() {
+  const poolAddress = "0x...";
+  const lpTokenAmount = ethers.utils.parseEther("1");
+  
+  // Calculate expected token amounts
+  const amounts = await bex.liquidity.calculateRemoveAmounts({
+    pool: poolAddress,
+    lpTokens: lpTokenAmount
+  });
+  
+  console.log("Will receive:");
+  console.log("Token A:", ethers.utils.formatEther(amounts.amountA));
+  console.log("Token B:", ethers.utils.formatEther(amounts.amountB));
+  
+  // Remove liquidity
+  const tx = await bex.liquidity.remove({
+    pool: poolAddress,
+    lpTokens: lpTokenAmount,
+    amountAMin: amounts.amountAMin,
+    amountBMin: amounts.amountBMin,
+    recipient: await signer.getAddress(),
+    deadline: Math.floor(Date.now() / 1000) + 1200
+  });
+  
+  await tx.wait();
+}
+```
+
+### Query Pool Information
+
+```javascript
+async function getPoolInfo() {
+  const poolAddress = "0x...";
+  
+  const info = await bex.pools.getPool(poolAddress);
+  
+  console.log("Pool:", info.name);
+  console.log("TVL:", ethers.utils.formatEther(info.tvl));
+  console.log("Volume (24h):", ethers.utils.formatEther(info.volume24h));
+  console.log("APR:", info.apr.toFixed(2) + "%");
+  console.log("Fee:", info.fee / 10000 + "%");
+}
+```
+
+## Direct Contract Interaction
+
+For advanced use cases, interact directly with contracts:
+
+### Router Contract
+
+```solidity
+interface IBexRouter {
+    function swapExactTokensForTokens(
+        uint amountIn,
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external returns (uint[] memory amounts);
+    
+    function addLiquidity(
+        address tokenA,
+        address tokenB,
+        uint amountADesired,
+        uint amountBDesired,
+        uint amountAMin,
+        uint amountBMin,
+        address to,
+        uint deadline
+    ) external returns (uint amountA, uint amountB, uint liquidity);
+}
+```
+
+### Using ethers.js
+
+```javascript
+const ROUTER_ADDRESS = "0x...";
+const ROUTER_ABI = [...]; // Full ABI
+
+const router = new ethers.Contract(
+  ROUTER_ADDRESS,
+  ROUTER_ABI,
+  signer
+);
+
+// Approve tokens
+const tokenContract = new ethers.Contract(tokenIn, ERC20_ABI, signer);
+await tokenContract.approve(ROUTER_ADDRESS, amountIn);
+
+// Execute swap
+const path = [tokenIn, tokenOut];
+const tx = await router.swapExactTokensForTokens(
+  amountIn,
+  amountOutMin,
+  path,
+  recipientAddress,
+  deadline
+);
+```
+
+## React Integration
+
+### Custom Hook Example
+
+```typescript
+import { useState, useEffect } from 'react';
+import { BexSDK } from '@berachain/bex-sdk';
+
+export function useTokenPrice(tokenA: string, tokenB: string) {
+  const [price, setPrice] = useState<string>('0');
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    async function fetchPrice() {
+      const bex = new BexSDK({...});
+      const result = await bex.prices.getPrice({
+        tokenIn: tokenA,
+        tokenOut: tokenB
+      });
+      setPrice(ethers.utils.formatEther(result));
+      setLoading(false);
+    }
+    
+    fetchPrice();
+    const interval = setInterval(fetchPrice, 10000); // Update every 10s
+    
+    return () => clearInterval(interval);
+  }, [tokenA, tokenB]);
+  
+  return { price, loading };
+}
+
+// Usage in component
+function PriceDisplay() {
+  const { price, loading } = useTokenPrice(BERA_ADDRESS, HONEY_ADDRESS);
+  
+  return <div>{loading ? 'Loading...' : `1 BERA = ${price} HONEY`}</div>;
+}
+```
+
+### Swap Component
+
+```typescript
+function SwapComponent() {
+  const [amountIn, setAmountIn] = useState('');
+  const [amountOut, setAmountOut] = useState('');
+  
+  const updateQuote = async (amount: string) => {
+    if (!amount) return;
+    
+    const quote = await bex.swap.getQuote({
+      tokenIn: BERA_ADDRESS,
+      tokenOut: HONEY_ADDRESS,
+      amountIn: ethers.utils.parseEther(amount)
+    });
+    
+    setAmountOut(ethers.utils.formatEther(quote.amountOut));
+  };
+  
+  const executeSwap = async () => {
+    const tx = await bex.swap.execute({
+      tokenIn: BERA_ADDRESS,
+      tokenOut: HONEY_ADDRESS,
+      amountIn: ethers.utils.parseEther(amountIn),
+      amountOutMin: ethers.utils.parseEther(amountOut).mul(995).div(1000), // 0.5% slippage
+      recipient: await signer.getAddress(),
+      deadline: Math.floor(Date.now() / 1000) + 1200
+    });
+    
+    await tx.wait();
+  };
+  
+  return (
+    <div>
+      <input
+        value={amountIn}
+        onChange={(e) => {
+          setAmountIn(e.target.value);
+          updateQuote(e.target.value);
+        }}
+        placeholder="Amount to swap"
+      />
+      <div>You will receive: {amountOut} HONEY</div>
+      <button onClick={executeSwap}>Swap</button>
+    </div>
+  );
+}
+```
+
+## Error Handling
+
+```javascript
+try {
+  const tx = await bex.swap.execute({...});
+  await tx.wait();
+} catch (error) {
+  if (error.code === 'INSUFFICIENT_FUNDS') {
+    console.error("Not enough tokens");
+  } else if (error.code === 'UNPREDICTABLE_GAS_LIMIT') {
+    console.error("Transaction will fail, possibly due to slippage");
+  } else if (error.message.includes('EXPIRED')) {
+    console.error("Transaction deadline passed");
+  } else {
+    console.error("Unknown error:", error);
+  }
+}
+```
+
+## Best Practices
+
+<Check>**Always set deadline**: Prevent transactions from executing at stale prices</Check>
+<Check>**Handle slippage**: Calculate appropriate slippage for market conditions</Check>
+<Check>**Approve tokens**: Check and request token approvals before swaps</Check>
+<Check>**Validate inputs**: Ensure amounts and addresses are valid</Check>
+<Check>**Monitor gas**: BEX is gas-efficient, but monitor for network congestion</Check>
+
+## Resources
+
+<CardGroup cols={2}>
+  <Card
+    title="SDK Reference"
+    icon="book"
+    href="/bex/developers/sdk-reference"
+  >
+    Complete SDK documentation
+  </Card>
+  <Card
+    title="Contract Addresses"
+    icon="file-contract"
+    href="/bex/contracts/addresses"
+  >
+    All BEX contract addresses
+  </Card>
+  <Card
+    title="Example Projects"
+    icon="github"
+    href="https://github.com/berachain/bex-examples"
+  >
+    Sample integration code
+  </Card>
+  <Card
+    title="Support"
+    icon="life-ring"
+    href="https://discord.gg/berachain"
+  >
+    Get help from the community
+  </Card>
+</CardGroup>
+

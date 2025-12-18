@@ -1,0 +1,104 @@
+---
+title: "Welcome to Berachain"
+description: "Learn, integrate, and build on a new modular EVM with Berachain"
+---
+
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.png"
+  alt="Berachain Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.png"
+  alt="Berachain Hero Dark"
+/>
+
+## What is Berachain?
+
+Berachain is a high-performance [EVM-Identical](#evm-identical-) Layer 1 blockchain utilizing [Proof-of-Liquidity](#proof-of-liquidity-) (PoL) and built on top of the modular EVM-focused consensus client framework [BeaconKit](#beaconkit-).
+
+### EVM Identical ⟠
+
+Berachain's execution runtime environment is identical to the Ethereum Virtual Machine (EVM) as seen on Ethereum Mainnet. We use very lightly modified forks of popular execution clients like Geth and Reth to handle executing smart contracts. We support all the usual tooling that are familiar to EVM developers.
+
+Identical means that whenever the EVM is upgraded, Berachain can adopt the latest version—for example, Dencun—straight out of the box. This includes compatibility with all RPC namespaces and endpoints, and any improvements made to execution clients can be applied immediately to Berachain.
+
+### Proof-of-Liquidity 🤝
+
+Proof-of-Liquidity radically changes the way L1 economics are structured, prioritizing users and applications over validator rewards at baseline. Network incentives go towards enriching ecosystem liquidity, contributing to efficient trading, price stability, securing the chain, and increasing network/user growth.
+
+PoL strongly aligns the incentives of network participants (validators, protocols, users) and contributes to the overall long-term health of the chain.
+
+Beyond providing seamless day-one utility, the native dApps, such as BEX, serve as reference implementations of how developers can build on top of Proof-of-Liquidity.
+
+### BeaconKit ⛵✨
+
+BeaconKit is a modular framework developed by Berachain for building EVM consensus clients. It integrates the benefits of CometBFT consensus, including increased composability, single slot finality (SSF), and more.
+
+<CardGroup cols={2}>
+  <Card
+    title="Learn the Basics"
+    icon="book"
+    href="/berachain/learn/overview"
+  >
+    Understand Berachain's architecture and Proof-of-Liquidity
+  </Card>
+  <Card
+    title="Start Building"
+    icon="code"
+    href="/berachain/developers/quickstart"
+  >
+    Deploy your first smart contract on Berachain
+  </Card>
+  <Card
+    title="Run a Node"
+    icon="server"
+    href="/berachain/nodes/setup"
+  >
+    Set up and run a Berachain node
+  </Card>
+  <Card
+    title="Become a Validator"
+    icon="shield"
+    href="/berachain/validators/overview"
+  >
+    Learn how to validate on Berachain
+  </Card>
+</CardGroup>
+
+## Core Features
+
+<AccordionGroup>
+  <Accordion title="EVM Identical">
+    Berachain's execution runtime environment is identical to the Ethereum Virtual Machine (EVM) as seen on Ethereum Mainnet. Deploy your existing Ethereum smart contracts without modifications. Use familiar tools like Hardhat, Foundry, and Remix.
+  </Accordion>
+  <Accordion title="Proof-of-Liquidity">
+    A novel economic mechanism that uses network incentives to align the interests of ecosystem participants and bolster both the application-layer and chain security.
+  </Accordion>
+  <Accordion title="BeaconKit Framework">
+    A modular consensus layer framework that enables single slot finality, optimistic payload building, and full EIP compatibility.
+  </Accordion>
+  <Accordion title="Native DeFi Stack">
+    Built-in protocols including BEX (DEX) and Bend (Lending) that are deeply integrated into the chain's infrastructure.
+  </Accordion>
+</AccordionGroup>
+
+## Ecosystem
+
+Berachain's ecosystem includes:
+
+- **BEX**: The native decentralized exchange for seamless token swaps
+- **Bend**: Decentralized lending and borrowing protocol
+- **BGT**: Berachain Governance Token for ecosystem participation
+- **BERA**: Native gas token
+- **HONEY**: Native stablecoin
+
+<Card
+  title="Explore the Ecosystem"
+  icon="diagram-project"
+  href="https://berachain.com/ecosystem"
+>
+  Discover all projects building on Berachain
+</Card>
+

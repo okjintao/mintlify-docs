@@ -1,68 +1,94 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "maple",
+  "mode": "dark",
+  "name": "Berachain Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#E17726",
+    "light": "#F89D4E",
+    "dark": "#C96516"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Berachain",
+        "icon": "cube",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "berachain/introduction"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Learn",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "berachain/learn/overview",
+              "berachain/learn/proof-of-liquidity"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Developers",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "berachain/developers/quickstart"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Infrastructure",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "berachain/nodes/setup",
+              "berachain/validators/overview"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "BEX",
+        "icon": "arrow-right-arrow-left",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
-              "api-reference/introduction"
+              "bex/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "User Guides",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "bex/guides/trading",
+              "bex/guides/liquidity"
+            ]
+          },
+          {
+            "group": "Developers",
+            "pages": [
+              "bex/developers/integration"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Bend",
+        "icon": "hand-holding-dollar",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "bend/introduction"
+            ]
+          },
+          {
+            "group": "User Guides",
+            "pages": [
+              "bend/guides/lending",
+              "bend/guides/borrowing"
+            ]
+          },
+          {
+            "group": "Developers",
+            "pages": [
+              "bend/developers/integration"
             ]
           }
         ]
@@ -71,13 +97,23 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Website",
+          "href": "https://berachain.com",
+          "icon": "globe"
+        },
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/berachain",
+          "icon": "github"
+        },
+        {
+          "anchor": "Discord",
+          "href": "https://discord.gg/berachain",
+          "icon": "discord"
         },
         {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://blog.berachain.com",
           "icon": "newspaper"
         }
       ]
@@ -90,33 +126,64 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "BEX",
+        "href": "https://bex.berachain.com"
+      },
+      {
+        "label": "Bend",
+        "href": "https://bend.berachain.com"
+      },
+      {
+        "label": "Faucet",
+        "href": "https://faucet.berachain.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Launch App",
+      "href": "https://berachain.com"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/berachain",
+      "github": "https://github.com/berachain",
+      "discord": "https://discord.gg/berachain",
+      "telegram": "https://t.me/berachain"
     }
+  },
+  "api": {
+    "baseUrl": "https://api.berachain.com",
+    "playground": {
+      "mode": "simple"
+    }
+  },
+  "openapi": [
+    "/api-reference/openapi.json"
+  ],
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "analytics": {
+    "ga4": {
+      "measurementId": "G-XXXXXXXXXX"
+    }
+  },
+  "seo": {
+    "indexHiddenPages": false
   }
 }

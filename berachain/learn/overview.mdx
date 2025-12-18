@@ -1,0 +1,81 @@
+---
+title: "Berachain Overview"
+description: "Understanding Berachain's architecture and design principles"
+---
+
+## Introduction to Berachain
+
+Berachain is a high-performance [EVM-Identical](#evm-identical-) Layer 1 blockchain utilizing [Proof-of-Liquidity](#proof-of-liquidity-) (PoL) and built on top of the modular EVM-focused consensus client framework [BeaconKit](#beaconkit-).
+
+## Key Components
+
+### EVM Identical ⟠
+
+Berachain's execution runtime environment is identical to the Ethereum Virtual Machine (EVM) as seen on Ethereum Mainnet. We use very lightly modified forks of popular execution clients like Geth and Reth to handle executing smart contracts. We support all the usual tooling that are familiar to EVM developers.
+
+Identical means that whenever the EVM is upgraded, Berachain can adopt the latest version—for example, Dencun—straight out of the box. This includes compatibility with all RPC namespaces and endpoints, and any improvements made to execution clients can be applied immediately to Berachain.
+
+### Proof-of-Liquidity 🤝
+
+Proof-of-Liquidity radically changes the way L1 economics are structured, prioritizing users and applications over validator rewards at baseline. Network incentives go towards enriching ecosystem liquidity, contributing to efficient trading, price stability, securing the chain, and increasing network/user growth.
+
+PoL strongly aligns the incentives of network participants (validators, protocols, users) and contributes to the overall long-term health of the chain.
+
+Beyond providing seamless day-one utility, the native dApps, such as BEX, serve as reference implementations of how developers can build on top of Proof-of-Liquidity.
+
+### BeaconKit ⛵✨
+
+BeaconKit is a modular framework developed by Berachain for building EVM consensus clients. It integrates the benefits of CometBFT consensus, including increased composability, single slot finality (SSF), and more.
+
+### Two-Token Model
+
+Berachain's consensus borrows from the Proof-of-Stake (PoS) model and contains two key components:
+
+1. **$BERA** - Validators secure the chain by staking the native gas token
+2. **$BGT** - A soulbound governance token distributed by validators for proposing new blocks, which is ultimately rewarded to users who provide ecosystem liquidity
+
+<CardGroup cols={2}>
+  <Card title="BERA" icon="gas-pump">
+    Native gas token for paying transaction fees and securing the chain
+  </Card>
+  <Card title="BGT" icon="landmark">
+    Soulbound governance token earned via liquidity provision
+  </Card>
+</CardGroup>
+
+## Architecture
+
+### BeaconKit Advantages
+
+Running a BeaconKit-based chain provides several advantages (assuming the default configuration of pairing with an EVM execution client):
+
+- Single slot finality (compared to Ethereum's ~13 minutes)
+- Optimistic payload building (executing block proposal in parallel with voting) reduces block times by up to 40%
+- Conformity to Eth2 modularity
+- Full EIP compatibility
+
+### Separation of Concerns
+
+Significantly, Proof-of-Liquidity separates the token responsible for gas and security from the token used to govern chain rewards and economic incentives.
+
+## Getting Started
+
+Ready to dive deeper? Check out:
+
+<CardGroup cols={2}>
+  <Card
+    title="Proof-of-Liquidity Deep Dive"
+    icon="droplet"
+    href="/berachain/learn/proof-of-liquidity"
+  >
+    Learn how PoL works in detail
+  </Card>
+  <Card
+    title="Developer Quickstart"
+    icon="rocket"
+    href="/berachain/developers/quickstart"
+  >
+    Start building on Berachain
+  </Card>
+</CardGroup>
+

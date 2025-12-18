@@ -1,0 +1,434 @@
+---
+title: "Lending on Bend"
+description: "Earn interest and BGT rewards by supplying assets"
+---
+
+## Getting Started with Lending
+
+Lending on Bend allows you to earn passive income on your crypto assets through:
+
+- **Interest**: Paid by borrowers
+- **BGT Emissions**: From Proof-of-Liquidity
+- **Additional Rewards**: From incentive programs
+
+<Tip>
+  Lending on Bend is one of the safest ways to earn yield in DeFi while contributing to ecosystem liquidity.
+</Tip>
+
+## How to Lend
+
+<Steps>
+  <Step title="Connect Wallet">
+    Visit [bend.berachain.com](https://bend.berachain.com) and connect your wallet
+  </Step>
+  
+  <Step title="Choose Market">
+    Browse available lending markets and select an asset to supply
+  </Step>
+  
+  <Step title="Enter Amount">
+    Enter the amount you want to lend. The interface will show:
+    - Current APY
+    - BGT rewards APR
+    - Total estimated earnings
+  </Step>
+  
+  <Step title="Approve & Supply">
+    Approve Bend to use your tokens (one-time per token), then confirm the supply transaction
+  </Step>
+  
+  <Step title="Start Earning">
+    You immediately begin earning interest and BGT rewards
+  </Step>
+</Steps>
+
+## Understanding Lending Rates
+
+### Supply APY
+
+Your earnings come from two sources:
+
+```
+Total APY = Base APY + BGT APR
+
+Example for HONEY lending:
+- Base APY: 8% (from borrower interest)
+- BGT APR: 15% (from PoL emissions)
+- Total APY: 23%
+```
+
+### Rate Determinants
+
+Interest rates are dynamically calculated based on:
+
+1. **Utilization Rate**: Percentage of supplied assets that are borrowed
+2. **Target Utilization**: Optimal utilization for each market
+3. **Rate Curve**: Interest rate model parameters
+
+<Note>
+  Higher utilization = Higher APY for lenders (and higher APR for borrowers)
+</Note>
+
+### Utilization Example
+
+```
+Market: HONEY Lending Pool
+Total Supplied: 1,000,000 HONEY
+Total Borrowed: 700,000 HONEY
+Utilization: 70%
+
+At 70% utilization:
+- Supply APY: ~8%
+- Borrow APR: ~12%
+```
+
+## Choosing Assets to Lend
+
+### Stablecoins (HONEY, USDC)
+
+**Pros:**
+- Minimal price volatility
+- Steady, predictable returns
+- Lower risk profile
+
+**Cons:**
+- Generally lower APY
+- No price appreciation
+
+**Best for**: Conservative investors, stable income
+
+### Major Cryptocurrencies (BERA, wETH, wBTC)
+
+**Pros:**
+- Competitive APY
+- Price appreciation potential
+- High liquidity
+
+**Cons:**
+- Price volatility risk
+- May have lower utilization
+
+**Best for**: Moderate risk tolerance, long-term holders
+
+### LP Tokens
+
+**Pros:**
+- Triple yield (fees + BGT + lending interest)
+- High APY potential
+- Compounding rewards
+
+**Cons:**
+- Complex risk (impermanent loss + lending risk)
+- Lower liquidity
+- Requires understanding of LP mechanics
+
+**Best for**: Advanced users, yield maximizers
+
+## Receipt Tokens (bTokens)
+
+When you supply assets, you receive bTokens:
+
+```
+Supply 100 HONEY → Receive 100 bHONEY
+```
+
+### bToken Properties
+
+- **1:1 Initial Rate**: Start at 1:1 with underlying asset
+- **Appreciation**: Value increases as interest accrues
+- **Transferable**: Can send to other wallets
+- **Redeemable**: Burn to receive underlying + interest
+- **Composable**: Use in other DeFi protocols
+
+<Warning>
+  bTokens are proof of your deposit. Keep them safe! Losing bTokens = losing your deposited funds.
+</Warning>
+
+### Using bTokens
+
+bTokens can be:
+
+1. **Held**: Simply hold to earn interest
+2. **Used as Collateral**: Enable as collateral to borrow
+3. **Traded**: Swap for other assets (may have slippage)
+4. **Staked**: Stake in additional yield farms
+
+## Earning BGT Rewards
+
+### How BGT is Distributed
+
+BGT rewards are distributed to lenders based on:
+
+1. **Market Weight**: How much BGT is allocated to each market
+2. **Your Share**: Your percentage of total supply in the market
+3. **Time**: Rewards accrue per block
+
+### Calculating Your BGT
+
+```
+Your Daily BGT = (Your Supply / Total Supply) × Market Daily BGT × Time
+
+Example:
+- You supply: 10,000 HONEY
+- Market total: 1,000,000 HONEY (1% share)
+- Market daily BGT: 1,000 BGT
+- Your daily BGT: 10 BGT
+```
+
+### Claiming BGT
+
+<Steps>
+  <Step title="Navigate to Rewards">
+    Go to the "Rewards" section in your Bend dashboard
+  </Step>
+  
+  <Step title="View Claimable BGT">
+    See your accumulated BGT rewards across all markets
+  </Step>
+  
+  <Step title="Claim">
+    Click "Claim All" and confirm the transaction
+  </Step>
+</Steps>
+
+<Tip>
+  Claim BGT regularly to delegate to validators or burn for BERA, but consider gas costs vs reward amount.
+</Tip>
+
+## Withdrawal Process
+
+### How to Withdraw
+
+<Steps>
+  <Step title="Go to Your Supplies">
+    Navigate to your dashboard and find the asset you want to withdraw
+  </Step>
+  
+  <Step title="Check Available">
+    Verify available liquidity in the market (not all supplied funds may be available if borrowed)
+  </Step>
+  
+  <Step title="Enter Amount">
+    Enter withdrawal amount (or click "Max" for everything)
+  </Step>
+  
+  <Step title="Confirm">
+    Confirm the transaction. You'll receive your supplied amount plus accrued interest.
+  </Step>
+</Steps>
+
+### Withdrawal Limits
+
+You can only withdraw up to:
+
+```
+Available to Withdraw = Your Supply - Used as Collateral - Borrowed Funds
+```
+
+<Warning>
+  If funds are being used as collateral, you must reduce your borrowed amount or add more collateral before withdrawing.
+</Warning>
+
+### When Liquidity is Low
+
+If utilization is too high (>90%), you may need to wait:
+
+```
+Market Utilization: 95%
+Available for Withdrawal: Only 5% of your supply
+
+Options:
+1. Wait for borrowers to repay
+2. Withdraw available portion
+3. Enable as collateral and borrow instead
+```
+
+## Lending Strategies
+
+### Conservative Strategy
+
+Focus on stability and safety:
+
+```
+Portfolio Allocation:
+- 60% HONEY (stablecoin)
+- 25% wETH (major crypto)
+- 15% BERA (native token)
+
+Expected APY: 10-15%
+Risk Level: Low
+```
+
+### Moderate Strategy
+
+Balance risk and reward:
+
+```
+Portfolio Allocation:
+- 40% HONEY
+- 30% wBTC
+- 20% BERA
+- 10% High-yield alt tokens
+
+Expected APY: 20-30%
+Risk Level: Medium
+```
+
+### Aggressive Strategy
+
+Maximize yields with higher risk:
+
+```
+Portfolio Allocation:
+- 30% LP Tokens
+- 30% High-yield alts
+- 20% BERA
+- 20% Stablecoins (safety buffer)
+
+Expected APY: 40-60%
+Risk Level: High
+```
+
+### Yield Maximization
+
+<AccordionGroup>
+  <Accordion title="Compound Interest">
+    Claim BGT regularly, convert to BERA or other assets, and re-supply to compound earnings.
+  </Accordion>
+  
+  <Accordion title="Market Rotation">
+    Monitor APYs across markets and rotate to highest-yielding opportunities.
+  </Accordion>
+  
+  <Accordion title="BGT Delegation">
+    Delegate BGT to validators to earn additional rewards while maintaining lending positions.
+  </Accordion>
+</AccordionGroup>
+
+## Monitoring Your Position
+
+### Key Metrics to Track
+
+| Metric | Description | Where to Find |
+|--------|-------------|---------------|
+| Supply APY | Interest rate earned | Market page |
+| BGT APR | BGT reward rate | Market page |
+| Your Supply | Amount you've lent | Dashboard |
+| Interest Earned | Accrued interest | Dashboard |
+| BGT Earned | Claimable BGT | Rewards page |
+| Utilization | % of supply borrowed | Market page |
+
+### Setting Up Alerts
+
+Monitor your positions with alerts for:
+
+- APY changes (>20% decrease)
+- BGT reward rate changes
+- Utilization spikes (>90%)
+- New markets or opportunities
+
+## Risks and Safety
+
+### Lending Risks
+
+<Warning>
+  **Smart Contract Risk**: Bugs or exploits in protocol code (mitigated by audits)
+</Warning>
+
+<Warning>
+  **Liquidity Risk**: May not be able to withdraw immediately if utilization is high
+</Warning>
+
+<Warning>
+  **Oracle Risk**: Price feed manipulation could affect protocol (mitigated by multiple oracles)
+</Warning>
+
+<Warning>
+  **Depeg Risk**: Stablecoins losing peg value (monitor HONEY health)
+</Warning>
+
+### Safety Measures
+
+<Check>**Start Small**: Test with small amounts before committing large capital</Check>
+<Check>**Diversify**: Spread across multiple assets and markets</Check>
+<Check>**Monitor Regularly**: Check positions and rates weekly</Check>
+<Check>**Keep Exit Liquidity**: Don't lock up all capital; maintain reserves</Check>
+<Check>**Understand bTokens**: Know that bTokens represent your claim</Check>
+
+## Advanced Features
+
+### Auto-Compounding
+
+Enable automatic reinvestment of earnings:
+
+```javascript
+// Automatically compounds interest back into supply
+- Claim BGT → Swap to underlying → Re-supply
+- Frequency: Daily/Weekly
+- Gas costs: ~$0.05 per compound
+```
+
+### Supply Multiple Assets
+
+Diversify by lending multiple assets simultaneously:
+
+```
+Portfolio:
+✓ 10,000 HONEY @ 8% APY
+✓ 1 wBTC @ 5% APY + 12% BGT
+✓ 50 BERA @ 6% APY + 15% BGT
+```
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can I lose my supplied assets?">
+    Your supplied assets are generally safe. The main risks are smart contract exploits (mitigated by audits) and inability to withdraw if utilization is 100% (temporary).
+  </Accordion>
+  
+  <Accordion title="How often does interest compound?">
+    Interest accrues every block (~5 seconds) and automatically compounds into your supply.
+  </Accordion>
+  
+  <Accordion title="What happens to my supply if I don't claim BGT?">
+    BGT continues to accrue and can be claimed anytime. No expiration.
+  </Accordion>
+  
+  <Accordion title="Can I withdraw more than I supplied?">
+    Yes! You withdraw your original supply plus all accrued interest.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Use as Collateral"
+    icon="shield"
+    href="/bend/guides/borrowing"
+  >
+    Learn about borrowing against your supplies
+  </Card>
+  <Card
+    title="BGT Management"
+    icon="coins"
+    href="/bend/guides/bgt-rewards"
+  >
+    Optimize your BGT rewards
+  </Card>
+  <Card
+    title="Market Analytics"
+    icon="chart-line"
+    href="/bend/guides/analytics"
+  >
+    Analyze market trends
+  </Card>
+  <Card
+    title="Developer Docs"
+    icon="code"
+    href="/bend/developers/lending"
+  >
+    Integrate lending into your dApp
+  </Card>
+</CardGroup>
+
