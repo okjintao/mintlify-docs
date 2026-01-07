@@ -1,0 +1,7 @@
+# Exclude the berachain-docs submodule
+berachain-docs/
+berachain-docs/**
+
+# Exclude all .md files (we only use .mdx)
+*.md
+!README.md

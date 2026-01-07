@@ -101,7 +101,7 @@ Check the signatures against your results.
 The script `setup-beacond.sh` invokes `beacond init` and `beacond jwt generate`. This script:
 
 1. runs `beacond init` to create the file `var/beacond/config/priv_validator_key.json`. This contains your node's private key, and especially if you intend to become a validator, this file should be kept safe. It cannot be regenerated, and losing it means you will not be able to participate in the consensus process.
-2. runs `beacond jwt generate` to create the file `jwt.hex`. This contains a secret shared between the consensus client and execution client so they can securely communicate. Protect this file. If you suspect it has been leaked, delete it then generate a new one with `beacond jwt generate -o $JWT_PATH`.
+2. runs `beacond jwt generate` to create the file `jwt.hex`. This contains a secret shared between the consensus client and execution client so they can securely communicate. Protect this file. If you suspect it has been leaked, delete it then generate a new one with `beacond jwt generate -o JWT_PATH`.
 3. rewrites the `beacond` configuration files to reflect settings chosen in `env.sh`.
 4. places the mainnet parameters, fetched above, where Beacon-Kit expects them and shows you an important hash from the genesis file.
 

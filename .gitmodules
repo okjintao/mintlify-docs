@@ -1,0 +1,3 @@
+[submodule "berachain-docs"]
+	path = berachain-docs
+	url = https://github.com/berachain/docs

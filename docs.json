@@ -22,23 +22,38 @@
             ]
           },
           {
-            "group": "Learn",
+            "group": "Proof of Liquidity",
             "pages": [
-              "berachain/learn/overview",
-              "berachain/learn/proof-of-liquidity"
+              "berachain/learn/pol/overview",
+              "berachain/learn/pol/what-is-pol",
+              "berachain/learn/pol/block-rewards"
             ]
           },
           {
-            "group": "Developers",
+            "group": "Integration",
             "pages": [
-              "berachain/developers/quickstart"
+              "berachain/developers/quickstart",
+              "berachain/developers/pol-integration"
             ]
           },
           {
-            "group": "Infrastructure",
+            "group": "Guides",
             "pages": [
-              "berachain/nodes/setup",
-              "berachain/validators/overview"
+              "berachain/developers/guides/build-smart-contract"
+            ]
+          },
+          {
+            "group": "Block Rewards",
+            "pages": [
+              "berachain/developers/contracts/block-reward-controller"
+            ]
+          },
+          {
+            "group": "Honey",
+            "pages": [
+              "berachain/learn/honey/overview",
+              "berachain/developers/contracts/honey-token",
+              "berachain/developers/contracts/honey-factory"
             ]
           }
         ]
@@ -63,7 +78,8 @@
           {
             "group": "Developers",
             "pages": [
-              "bex/developers/integration"
+              "bex/developers/integration",
+              "bex/contracts/overview"
             ]
           }
         ]
@@ -88,7 +104,8 @@
           {
             "group": "Developers",
             "pages": [
-              "bend/developers/integration"
+              "bend/developers/integration",
+              "bend/contracts/overview"
             ]
           }
         ]
@@ -124,24 +141,9 @@
     "dark": "/logo/dark.svg"
   },
   "navbar": {
-    "links": [
-      {
-        "label": "BEX",
-        "href": "https://bex.berachain.com"
-      },
-      {
-        "label": "Bend",
-        "href": "https://bend.berachain.com"
-      },
-      {
-        "label": "Faucet",
-        "href": "https://faucet.berachain.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Launch App",
-      "href": "https://berachain.com"
+    "links": [],
+    "search": {
+      "position": "center"
     }
   },
   "contextual": {
@@ -170,9 +172,6 @@
       "mode": "simple"
     }
   },
-  "openapi": [
-    "/api-reference/openapi.json"
-  ],
   "feedback": {
     "thumbsRating": true,
     "suggestEdit": true,

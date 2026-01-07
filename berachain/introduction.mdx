@@ -1,6 +1,6 @@
 ---
 title: "Welcome to Berachain"
-description: "Learn, integrate, and build on a new modular EVM with Berachain"
+description: "Build on a high-performance EVM-identical Layer 1 blockchain with Proof-of-Liquidity"
 ---
 
 <img
@@ -14,27 +14,76 @@ description: "Learn, integrate, and build on a new modular EVM with Berachain"
   alt="Berachain Hero Dark"
 />
 
-## What is Berachain?
+## Build on Berachain
 
-Berachain is a high-performance [EVM-Identical](#evm-identical-) Layer 1 blockchain utilizing [Proof-of-Liquidity](#proof-of-liquidity-) (PoL) and built on top of the modular EVM-focused consensus client framework [BeaconKit](#beaconkit-).
+Deploy your existing Ethereum smart contracts without modifications on a high-performance Layer 1 blockchain with Ethereum-grade security and novel economic incentives.
 
-### EVM Identical ⟠
+<CardGroup cols={2}>
+  <Card
+    title="Developer Quickstart"
+    icon="rocket"
+    href="/berachain/developers/quickstart"
+  >
+    Deploy your first smart contract on Berachain
+  </Card>
+  <Card
+    title="Learn More"
+    icon="book"
+    href="/berachain/learn/overview"
+  >
+    Understand Berachain's architecture and design
+  </Card>
+</CardGroup>
 
-Berachain's execution runtime environment is identical to the Ethereum Virtual Machine (EVM) as seen on Ethereum Mainnet. We use very lightly modified forks of popular execution clients like Geth and Reth to handle executing smart contracts. We support all the usual tooling that are familiar to EVM developers.
+## Components
 
-Identical means that whenever the EVM is upgraded, Berachain can adopt the latest version—for example, Dencun—straight out of the box. This includes compatibility with all RPC namespaces and endpoints, and any improvements made to execution clients can be applied immediately to Berachain.
+Berachain is a high-performance EVM-identical Layer 1 blockchain. Before you start building, it's important to understand the key components and how they work together.
 
-### Proof-of-Liquidity 🤝
+* **EVM Identical Runtime**: Berachain's execution environment is identical to the Ethereum Virtual Machine (EVM) as seen on Ethereum Mainnet. Deploy your existing Ethereum smart contracts without modifications and use familiar tools like Hardhat, Foundry, and Remix.
 
-Proof-of-Liquidity radically changes the way L1 economics are structured, prioritizing users and applications over validator rewards at baseline. Network incentives go towards enriching ecosystem liquidity, contributing to efficient trading, price stability, securing the chain, and increasing network/user growth.
+* **Proof-of-Liquidity (PoL)**: A novel economic mechanism that prioritizes users and applications over validator rewards. Network incentives go towards enriching ecosystem liquidity, contributing to efficient trading, price stability, securing the chain, and increasing network growth.
 
-PoL strongly aligns the incentives of network participants (validators, protocols, users) and contributes to the overall long-term health of the chain.
+* **BeaconKit Framework**: A modular consensus layer framework that enables single slot finality, optimistic payload building, and full EIP compatibility. Built on CometBFT consensus for increased composability.
 
-Beyond providing seamless day-one utility, the native dApps, such as BEX, serve as reference implementations of how developers can build on top of Proof-of-Liquidity.
+* **Native DeFi Stack**: Built-in protocols including BEX (DEX) and Bend (Lending) that are deeply integrated into the chain's infrastructure and serve as reference implementations.
 
-### BeaconKit ⛵✨
+## Getting Started
 
-BeaconKit is a modular framework developed by Berachain for building EVM consensus clients. It integrates the benefits of CometBFT consensus, including increased composability, single slot finality (SSF), and more.
+The following section will walk you through the sequence of steps to start building on Berachain.
+
+### 1
+
+**Learn the fundamentals**
+
+Understand Berachain's architecture, Proof-of-Liquidity mechanism, and how it differs from other blockchains.
+
+### 2
+
+**Set up your development environment**
+
+Install Foundry or your preferred development tooling. Berachain supports all standard EVM tooling.
+
+### 3
+
+**Deploy your first contract**
+
+Follow the developer quickstart guide to deploy an ERC-20 token or your first smart contract to Berachain testnet.
+
+### 4
+
+**Connect to native protocols**
+
+Integrate with BEX for trading and liquidity, or Bend for lending and borrowing to leverage Berachain's native DeFi stack.
+
+### 5
+
+**Explore advanced features**
+
+Learn how to leverage Proof-of-Liquidity in your applications and take advantage of single slot finality.
+
+## Next Steps
+
+Of course there is a lot more to explore. Take a look at some of the guides and resources to get an idea of what you can build:
 
 <CardGroup cols={2}>
   <Card
@@ -66,39 +115,4 @@ BeaconKit is a modular framework developed by Berachain for building EVM consens
     Learn how to validate on Berachain
   </Card>
 </CardGroup>
-
-## Core Features
-
-<AccordionGroup>
-  <Accordion title="EVM Identical">
-    Berachain's execution runtime environment is identical to the Ethereum Virtual Machine (EVM) as seen on Ethereum Mainnet. Deploy your existing Ethereum smart contracts without modifications. Use familiar tools like Hardhat, Foundry, and Remix.
-  </Accordion>
-  <Accordion title="Proof-of-Liquidity">
-    A novel economic mechanism that uses network incentives to align the interests of ecosystem participants and bolster both the application-layer and chain security.
-  </Accordion>
-  <Accordion title="BeaconKit Framework">
-    A modular consensus layer framework that enables single slot finality, optimistic payload building, and full EIP compatibility.
-  </Accordion>
-  <Accordion title="Native DeFi Stack">
-    Built-in protocols including BEX (DEX) and Bend (Lending) that are deeply integrated into the chain's infrastructure.
-  </Accordion>
-</AccordionGroup>
-
-## Ecosystem
-
-Berachain's ecosystem includes:
-
-- **BEX**: The native decentralized exchange for seamless token swaps
-- **Bend**: Decentralized lending and borrowing protocol
-- **BGT**: Berachain Governance Token for ecosystem participation
-- **BERA**: Native gas token
-- **HONEY**: Native stablecoin
-
-<Card
-  title="Explore the Ecosystem"
-  icon="diagram-project"
-  href="https://berachain.com/ecosystem"
->
-  Discover all projects building on Berachain
-</Card>
 
