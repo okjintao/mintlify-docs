@@ -58,7 +58,7 @@ View at `http://localhost:3000`
 mint build
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 mintlify-docs/

@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "almond",
+  "theme": "palm",
   "mode": "dark",
   "name": "Berachain",
   "colors": {
@@ -8,129 +8,16 @@
     "light": "#F89D4E",
     "dark": "#C96516"
   },
-  "favicon": "/favicon.svg",
+  "favicon": {
+    "light": "/favicon-core.svg",
+    "dark": "/favicon-core.svg"
+  },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
     "href": "https://berachain.com"
   },
   "navigation": {
-    "tabs": [
-      {
-        "tab": "General",
-        "groups": [
-          {
-            "group": "Introduction",
-            "pages": [
-              "general/introduction/what-is-berachain",
-              "general/introduction/what-is-proof-of-liquidity",
-              "general/introduction/connect-to-berachain",
-              "general/introduction/how-to-get-bera"
-            ]
-          },
-          {
-            "group": "Proof of Liquidity",
-            "pages": [
-              "general/proof-of-liquidity/overview",
-              "general/proof-of-liquidity/participants",
-              "general/proof-of-liquidity/reward-vaults",
-              "general/proof-of-liquidity/incentives",
-              "general/proof-of-liquidity/block-rewards"
-            ]
-          },
-          {
-            "group": "Tokens",
-            "pages": [
-              "general/tokens/bera",
-              "general/tokens/bgt",
-              "general/tokens/honey"
-            ]
-          },
-          {
-            "group": "Governance",
-            "pages": [
-              "general/governance/overview",
-              "general/governance/reward-vault-governance"
-            ]
-          },
-          {
-            "group": "Help",
-            "pages": [
-              "general/help/faqs",
-              "general/help/glossary"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "BEX",
-        "groups": [
-          {
-            "group": "Learn",
-            "pages": [
-              "bex/learn/overview"
-            ]
-          },
-          {
-            "group": "Guides",
-            "pages": [
-              "bex/guides/swaps",
-              "bex/guides/liquidity",
-              "bex/guides/pool-creation",
-              "bex/guides/proof-of-liquidity"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Bend",
-        "groups": [
-          {
-            "group": "Learn",
-            "pages": [
-              "bend/learn/overview"
-            ]
-          },
-          {
-            "group": "Guides",
-            "pages": [
-              "bend/guides/deposit-withdraw",
-              "bend/guides/borrow-repay"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Build",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": [
-              "build/getting-started/overview",
-              "build/getting-started/network-configurations",
-              "build/getting-started/developer-tools"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Validators",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": [
-              "validators/overview/index"
-            ]
-          },
-          {
-            "group": "Architecture",
-            "pages": [
-              "validators/architecture/validator-lifecycle"
-            ]
-          }
-        ]
-      }
-    ],
     "global": {
       "anchors": [
         {
@@ -152,22 +39,511 @@
           "anchor": "Telegram",
           "icon": "telegram",
           "href": "https://t.me/berachain"
-        },
-        {
-          "anchor": "Bera Hub",
-          "icon": "sitemap",
-          "href": "https://hub.berachain.com"
-        },
-        {
-          "anchor": "Honey Swap",
-          "icon": "arrow-right-arrow-left",
-          "href": "https://honey.berachain.com"
         }
       ]
-    }
+    },
+    "languages": [
+      {
+        "language": "en",
+        "default": true,
+        "tabs": [
+          {
+            "tab": "General",
+            "groups": [
+              {
+                "group": "Introduction",
+                "pages": [
+                  "index",
+                  "general/introduction/what-is-berachain",
+                  "general/introduction/what-is-proof-of-liquidity",
+                  "general/introduction/connect-to-berachain",
+                  "general/introduction/how-to-get-bera"
+                ]
+              },
+              {
+                "group": "Proof of Liquidity",
+                "pages": [
+                  "general/proof-of-liquidity/overview",
+                  "general/proof-of-liquidity/participants",
+                  "general/proof-of-liquidity/reward-vaults",
+                  "general/proof-of-liquidity/incentives",
+                  "general/proof-of-liquidity/block-rewards"
+                ]
+              },
+              {
+                "group": "Tokens",
+                "pages": [
+                  "general/tokens/bera",
+                  "general/tokens/bgt",
+                  "general/tokens/honey"
+                ]
+              },
+              {
+                "group": "Governance",
+                "pages": [
+                  "general/governance/overview",
+                  "general/governance/reward-vault-governance"
+                ]
+              },
+              {
+                "group": "Help",
+                "pages": [
+                  "general/help/faqs",
+                  "general/help/glossary"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "BEX",
+            "groups": [
+              {
+                "group": "Learn",
+                "pages": [
+                  "bex/learn/overview"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "bex/guides/swaps",
+                  "bex/guides/liquidity",
+                  "bex/guides/pool-creation",
+                  "bex/guides/proof-of-liquidity"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Bend",
+            "groups": [
+              {
+                "group": "Learn",
+                "pages": [
+                  "bend/learn/overview"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "bend/guides/deposit-withdraw",
+                  "bend/guides/borrow-repay"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Build",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "build/getting-started/overview",
+                  "build/getting-started/network-configurations",
+                  "build/getting-started/developer-tools"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Validators",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "validators/overview/index"
+                ]
+              },
+              {
+                "group": "Architecture",
+                "pages": [
+                  "validators/architecture/validator-lifecycle"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "language": "cn",
+        "href": "/cn",
+        "tabs": [
+          {
+            "tab": "General",
+            "groups": [
+              {
+                "group": "Introduction",
+                "pages": [
+                  "cn/index",
+                  "cn/general/introduction/what-is-berachain",
+                  "cn/general/introduction/what-is-proof-of-liquidity",
+                  "cn/general/introduction/connect-to-berachain",
+                  "cn/general/introduction/how-to-get-bera"
+                ]
+              },
+              {
+                "group": "Proof of Liquidity",
+                "pages": [
+                  "cn/general/proof-of-liquidity/overview",
+                  "cn/general/proof-of-liquidity/participants",
+                  "cn/general/proof-of-liquidity/reward-vaults",
+                  "cn/general/proof-of-liquidity/incentives",
+                  "cn/general/proof-of-liquidity/block-rewards"
+                ]
+              },
+              {
+                "group": "Tokens",
+                "pages": [
+                  "cn/general/tokens/bera",
+                  "cn/general/tokens/bgt",
+                  "cn/general/tokens/honey"
+                ]
+              },
+              {
+                "group": "Governance",
+                "pages": [
+                  "cn/general/governance/overview",
+                  "cn/general/governance/reward-vault-governance"
+                ]
+              },
+              {
+                "group": "Help",
+                "pages": [
+                  "cn/general/help/faqs",
+                  "cn/general/help/glossary"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "BEX",
+            "groups": [
+              {
+                "group": "Learn",
+                "pages": [
+                  "cn/bex/learn/overview"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "cn/bex/guides/swaps",
+                  "cn/bex/guides/liquidity",
+                  "cn/bex/guides/pool-creation",
+                  "cn/bex/guides/proof-of-liquidity"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Bend",
+            "groups": [
+              {
+                "group": "Learn",
+                "pages": [
+                  "cn/bend/learn/overview"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "cn/bend/guides/deposit-withdraw",
+                  "cn/bend/guides/borrow-repay"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Build",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "cn/build/getting-started/overview",
+                  "cn/build/getting-started/network-configurations",
+                  "cn/build/getting-started/developer-tools"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Validators",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "cn/validators/overview/index"
+                ]
+              },
+              {
+                "group": "Architecture",
+                "pages": [
+                  "cn/validators/architecture/validator-lifecycle"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "language": "ko",
+        "href": "/ko",
+        "tabs": [
+          {
+            "tab": "General",
+            "groups": [
+              {
+                "group": "Introduction",
+                "pages": [
+                  "ko/index",
+                  "ko/general/introduction/what-is-berachain",
+                  "ko/general/introduction/what-is-proof-of-liquidity",
+                  "ko/general/introduction/connect-to-berachain",
+                  "ko/general/introduction/how-to-get-bera"
+                ]
+              },
+              {
+                "group": "Proof of Liquidity",
+                "pages": [
+                  "ko/general/proof-of-liquidity/overview",
+                  "ko/general/proof-of-liquidity/participants",
+                  "ko/general/proof-of-liquidity/reward-vaults",
+                  "ko/general/proof-of-liquidity/incentives",
+                  "ko/general/proof-of-liquidity/block-rewards"
+                ]
+              },
+              {
+                "group": "Tokens",
+                "pages": [
+                  "ko/general/tokens/bera",
+                  "ko/general/tokens/bgt",
+                  "ko/general/tokens/honey"
+                ]
+              },
+              {
+                "group": "Governance",
+                "pages": [
+                  "ko/general/governance/overview",
+                  "ko/general/governance/reward-vault-governance"
+                ]
+              },
+              {
+                "group": "Help",
+                "pages": [
+                  "ko/general/help/faqs",
+                  "ko/general/help/glossary"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "BEX",
+            "groups": [
+              {
+                "group": "Learn",
+                "pages": [
+                  "ko/bex/learn/overview"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "ko/bex/guides/swaps",
+                  "ko/bex/guides/liquidity",
+                  "ko/bex/guides/pool-creation",
+                  "ko/bex/guides/proof-of-liquidity"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Bend",
+            "groups": [
+              {
+                "group": "Learn",
+                "pages": [
+                  "ko/bend/learn/overview"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "ko/bend/guides/deposit-withdraw",
+                  "ko/bend/guides/borrow-repay"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Build",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "ko/build/getting-started/overview",
+                  "ko/build/getting-started/network-configurations",
+                  "ko/build/getting-started/developer-tools"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Validators",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "ko/validators/overview/index"
+                ]
+              },
+              {
+                "group": "Architecture",
+                "pages": [
+                  "ko/validators/architecture/validator-lifecycle"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "language": "vi",
+        "href": "/vi",
+        "tabs": [
+          {
+            "tab": "General",
+            "groups": [
+              {
+                "group": "Introduction",
+                "pages": [
+                  "vi/index",
+                  "vi/general/introduction/what-is-berachain",
+                  "vi/general/introduction/what-is-proof-of-liquidity",
+                  "vi/general/introduction/connect-to-berachain",
+                  "vi/general/introduction/how-to-get-bera"
+                ]
+              },
+              {
+                "group": "Proof of Liquidity",
+                "pages": [
+                  "vi/general/proof-of-liquidity/overview",
+                  "vi/general/proof-of-liquidity/participants",
+                  "vi/general/proof-of-liquidity/reward-vaults",
+                  "vi/general/proof-of-liquidity/incentives",
+                  "vi/general/proof-of-liquidity/block-rewards"
+                ]
+              },
+              {
+                "group": "Tokens",
+                "pages": [
+                  "vi/general/tokens/bera",
+                  "vi/general/tokens/bgt",
+                  "vi/general/tokens/honey"
+                ]
+              },
+              {
+                "group": "Governance",
+                "pages": [
+                  "vi/general/governance/overview",
+                  "vi/general/governance/reward-vault-governance"
+                ]
+              },
+              {
+                "group": "Help",
+                "pages": [
+                  "vi/general/help/faqs",
+                  "vi/general/help/glossary"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "BEX",
+            "groups": [
+              {
+                "group": "Learn",
+                "pages": [
+                  "vi/bex/learn/overview"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "vi/bex/guides/swaps",
+                  "vi/bex/guides/liquidity",
+                  "vi/bex/guides/pool-creation",
+                  "vi/bex/guides/proof-of-liquidity"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Bend",
+            "groups": [
+              {
+                "group": "Learn",
+                "pages": [
+                  "vi/bend/learn/overview"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "vi/bend/guides/deposit-withdraw",
+                  "vi/bend/guides/borrow-repay"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Build",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "vi/build/getting-started/overview",
+                  "vi/build/getting-started/network-configurations",
+                  "vi/build/getting-started/developer-tools"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Validators",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "vi/validators/overview/index"
+                ]
+              },
+              {
+                "group": "Architecture",
+                "pages": [
+                  "vi/validators/architecture/validator-lifecycle"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "navbar": {
-    "links": []
+    "links": [
+      {
+        "label": "Bera Hub",
+        "href": "https://hub.berachain.com"
+      },
+      {
+        "label": "Honey Swap",
+        "href": "https://honey.berachain.com"
+      },
+      {
+        "label": "Bend",
+        "href": "https://bend.berachain.com/"
+      }
+    ]
   },
   "footer": {
     "socials": {

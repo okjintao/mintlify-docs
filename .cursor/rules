@@ -1,5 +1,14 @@
 # Cursor Rules for Berachain Documentation
 
+## No Emoji Use
+
+Do not use emojis in any content. This applies to:
+- Documentation (MDX, Markdown)
+- Card titles and descriptions on the home page
+- Scripts, README, and all project files
+
+Use plain text only. Replace emoji emphasis with clear wording.
+
 ## Reference Documentation
 
 The `berachain-docs` directory is a git submodule containing the official Berachain documentation repository from https://github.com/berachain/docs. This submodule serves as the primary reference for creating new documentation.

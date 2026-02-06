@@ -337,5 +337,5 @@ The tab navigation adapts to mobile:
 
 ---
 
-This structure allows users to easily navigate between Berachain core documentation, BEX (DEX), and Bend (Lending) all within one unified documentation site! 🎉
+This structure allows users to easily navigate between Berachain core documentation, BEX (DEX), and Bend (Lending) all within one unified documentation site!
 

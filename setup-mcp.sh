@@ -23,7 +23,7 @@ fi
 
 SUBDOMAIN=$1
 
-echo "📦 Installing @mintlify/mcp package..."
+echo "Installing @mintlify/mcp package..."
 echo ""
 
 # Install and run MCP setup
