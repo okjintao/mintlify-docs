@@ -2,32 +2,32 @@
 
 Welcome to the unified Berachain documentation! This repository contains comprehensive documentation for Berachain and its native protocols: BEX and Bend.
 
-## 📚 Documentation Structure
+## Documentation Structure
 
 This documentation is organized into three main tabs:
 
-### 🔷 Berachain (Core)
+### Berachain (Core)
 Documentation for the Berachain L1 blockchain:
 - **Getting Started**: Introduction and overview
 - **Learn**: Deep dives into Proof-of-Liquidity, tokenomics, and architecture
 - **Developers**: Quickstart guides, API references, and development resources
 - **Infrastructure**: Node setup, validator guides, and network operations
 
-### 🔄 BEX (Decentralized Exchange)
+### BEX (Decentralized Exchange)
 Native DEX protocol on Berachain:
 - **Overview**: Introduction to BEX and its features
 - **User Guides**: Trading, providing liquidity, and earning rewards
 - **Developers**: SDK integration, smart contract references, and examples
 - **Contracts**: Smart contract addresses and technical details
 
-### 💰 Bend (Lending Protocol)
+### Bend (Lending Protocol)
 Native lending and borrowing protocol:
 - **Overview**: Introduction to Bend and its features
 - **User Guides**: Lending, borrowing, and position management
 - **Developers**: SDK integration, smart contract references, and examples
 - **Contracts**: Smart contract addresses and risk parameters
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -102,7 +102,7 @@ mintlify-docs/
 └── images/
 ```
 
-## 🎨 Customization
+## Customization
 
 ### Theme & Branding
 
@@ -146,7 +146,7 @@ Replace the logo files in `/logo/`:
 - `light.svg` - Logo for light mode
 - `dark.svg` - Logo for dark mode
 
-## 📝 Content Guidelines
+## Content Guidelines
 
 ### MDX Features
 
@@ -199,7 +199,7 @@ This documentation uses Berachain's extended MDX features:
 </AccordionGroup>
 ```
 
-## 🔗 Links & Resources
+## Links & Resources
 
 ### Berachain Ecosystem
 
@@ -215,7 +215,7 @@ This documentation uses Berachain's extended MDX features:
 - **Faucet**: [faucet.berachain.com](https://faucet.berachain.com)
 - **Explorer**: [artio.beratrail.io](https://artio.beratrail.io)
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! To contribute:
 
@@ -236,11 +236,11 @@ When adding new documentation:
 - Add cross-references to related pages
 - Test all links and code snippets
 
-## 📄 License
+## License
 
 This documentation is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-## 🆘 Support
+## Support
 
 Need help?
 
@@ -248,7 +248,7 @@ Need help?
 - **Technical Support**: Join our [Discord](https://discord.gg/berachain)
 - **Developer Questions**: Visit the #developers channel on Discord
 
-## 🔄 Updates
+## Updates
 
 This documentation is continuously updated. To stay current:
 
@@ -256,20 +256,20 @@ This documentation is continuously updated. To stay current:
 2. Join our Discord for announcements
 3. Follow [@berachain](https://x.com/berachain) on Twitter
 
-## ✨ Features
+## Features
 
-- ✅ Unified documentation for Berachain, BEX, and Bend
-- ✅ Tab-based navigation at the top
-- ✅ Comprehensive user and developer guides
-- ✅ Code examples and integration tutorials
-- ✅ Smart contract references
-- ✅ Interactive components (cards, accordions, steps)
-- ✅ Search functionality
-- ✅ Dark/light mode support
-- ✅ Mobile responsive
-- ✅ SEO optimized
+- Unified documentation for Berachain, BEX, and Bend
+- Tab-based navigation at the top
+- Comprehensive user and developer guides
+- Code examples and integration tutorials
+- Smart contract references
+- Interactive components (cards, accordions, steps)
+- Search functionality
+- Dark/light mode support
+- Mobile responsive
+- SEO optimized
 
-## 🎯 Roadmap
+## Roadmap
 
 - [ ] Add video tutorials
 - [ ] Expand API documentation
@@ -281,4 +281,4 @@ This documentation is continuously updated. To stay current:
 
 ---
 
-Built with ❤️ by the Berachain team
+Built by the Berachain team

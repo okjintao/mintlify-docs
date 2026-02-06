@@ -1,0 +1,22 @@
+/* Move global anchors to bottom of sidebar (Almond theme - where theme picker is) */
+#sidebar,
+[data-sidebar] {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-anchors,
+#sidebar .nav-anchors,
+[data-sidebar] .nav-anchors {
+  order: 999;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+/* Almond theme: ensure anchors appear in bottom section area */
+.almond-nav-bottom-section .nav-anchors,
+.almond-layout .nav-anchors {
+  order: 999;
+  margin-top: auto;
+}

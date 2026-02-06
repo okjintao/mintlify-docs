@@ -1,0 +1,154 @@
+---
+title: "Reward Vaults"
+description: "How Reward Vaults work in Berachain's Proof-of-Liquidity system"
+---
+
+# Reward Vaults
+
+Reward Vaults are smart contracts in which users can stake their Proof-of-Liquidity (PoL) eligible assets to receive `$BGT` rewards. Reward Vaults are the only way anyone can earn `$BGT` rewards, and therefore serve the important function of gating entry into the PoL ecosystem.
+
+Reward Vaults are key infrastructure that allows protocols to leverage PoL, enabling teams to incentivize users' actions in exchange for `$BGT`. A protocol can have multiple Reward Vaults, each with its own PoL-eligible asset to be staked. For example, BEX can have multiple pools earning `$BGT`, each with its own Reward Vault and respective PoL-eligible asset.
+
+<Info>
+Only Reward Vaults approved through governance are eligible to receive `$BGT` emissions from Validators.
+
+Please see the full Berachain Reward Vault Requirements & Guidelines for the application process.
+</Info>
+
+## User Interactions
+
+### Staking With A Reward Vault
+
+![Berachain Reward Vault Staking BEX](/images/berachain-reward-vault-staking-bex.png)
+
+To receive `$BGT`, a user must stake the PoL-eligible asset in its Reward Vault. The protocol that deployed the Reward Vault decides how users acquire the PoL-eligible asset to stake. The idea is that protocols would leverage this to attract liquidity or stimulate activity, and in return award users with the asset they can stake in their vault.
+
+1. The user takes some action that results in receiving a PoL-eligible asset, generally referred to as a receipt token.
+2. The user stakes the PoL-eligible asset in the corresponding vault.
+3. The user earns a portion of all the BGT emitted to that vault.
+
+### Earning BGT
+
+The amount of `$BGT` rewards a user earns from a Reward Vault is a function of:
+
+1. The user's share of total assets staked in the Reward Vault
+2. The amount of `$BGT` rewards emitted to the Reward Vault
+
+After staking assets in a Reward Vault, users are free to claim their earned rewards, add to their deposits, or withdraw their assets whenever they wish.
+
+`$BGT` farming with Reward Vaults is meant to resemble familiar DeFi actions, providing a low barrier to entry.
+
+## Delegation
+
+The RewardVault supports **delegation**, which allows one address (the delegate) to stake tokens on behalf of another address (the account holder). This enables use cases such as:
+
+- **Custodial staking**: Exchanges or custodians staking on behalf of users
+- **Smart contract integration**: Protocols automatically staking user funds
+- **Managed staking services**: Third-party services handling staking operations
+
+**Key delegation concepts**:
+
+- **Delegate**: The address that deposits/withdraws tokens (msg.sender)
+- **Account**: The address that owns the staked position and receives rewards
+- **Self-staked balance**: Tokens staked directly by the account holder
+- **Delegated balance**: Tokens staked by delegates on behalf of the account
+
+**Important**: Only the account holder can withdraw their self-staked tokens. Delegates can only withdraw tokens they deposited on behalf of the account.
+
+## $BGT Flow
+
+When a validator is chosen to propose a block, they direct a portion of their `$BGT` emissions to specific Reward Vaults of their choice. To learn more about how `$BGT` is calculated in block production, check out the docs on [block rewards](/general/proof-of-liquidity/block-rewards).
+
+## BGT Emission Modes
+
+Reward Vaults operate in one of two mutually-exclusive modes for **BGT reward distribution timing**:
+
+### Duration-Based Mode (Legacy)
+
+In this mode, the `rewardDurationManager` sets a fixed `rewardsDuration` (typically 3-7 days). Each time BGT rewards are added to the vault via `notifyRewardAmount`, the BGT is distributed evenly over this predetermined period.
+
+Duration-based mode enforces the 3-7 day range: if switching from target rate mode where the duration exceeded 7 days, the duration will be capped at 7 days.
+
+**Example**: If 100 BGT is added with a 5-day duration, the vault distributes 20 BGT per day to stakers.
+
+### Target Rate Mode
+
+When `targetRewardsPerSecond` is set to a non-zero value, the vault automatically calculates the optimal distribution period for each BGT deposit. The vault ensures the emission rate never exceeds the target while respecting the minimum duration limit.
+
+The computation follows this formula:
+
+```text
+period = max(minRewardDurationForTargetRate, totalReward / targetRate)
+```
+
+This guarantees the duration is never shorter than the minimum (default 3 days), but can extend beyond 7 days if needed to maintain the target rate.
+
+### Switching Between Modes
+
+- `setTargetRewardsPerSecond(x)` enables target rate mode
+- `setTargetRewardsPerSecond(0)` re-enables duration-based mode
+- Only the `rewardVaultManager` can switch modes
+
+## Incentive Management
+
+RewardVaults support **incentive tokens**, which are additional tokens that protocols can offer to BGT stakers beyond the base BGT rewards. This creates a powerful mechanism for protocols to attract liquidity and user engagement.
+
+### How Incentive Tokens Work
+
+1. **Whitelisting**: Protocol tokens must first be whitelisted in the vault by governance
+2. **Exchange Rate Setting**: Protocol managers set exchange rates (e.g., "10 USDC per BGT earned")
+3. **Token Deposits**: Protocols deposit their tokens into the vault
+4. **Automatic Distribution**: When users earn BGT, they automatically receive proportional incentive tokens
+
+## Incentives
+
+To understand why validators would choose to emit `$BGT` to one Reward Vault over another, refer to [Incentives](/general/proof-of-liquidity/incentives) in PoL, which discusses how protocols can influence validator behavior with economic incentives.
+
+## Vault Creation
+
+New Reward Vaults can be created permissionlessly at [Berachain Hub](https://hub.berachain.com/vaults/create).
+
+Protocols creating Reward Vaults must additionally whitelist their vaults through `$BGT` governance to be eligible to receive emissions from validators.
+
+## Calculating $BGT APR
+
+The RewardVault APR is determined by several factors. The components of this APR calculation include:
+
+- `rewardRate` - The BGT amount added to Reward Vault Staker's total claims per second
+- `periodFinish` - The timestamp when the `rewardRate` expires
+- `stakeToken` - The token you stake into the Reward Vault
+- `totalSupply` - The total amount of `stakeToken` staked in the Reward Vault
+- Price of `$BGT` (`$BERA`) - The assumption is made the price of `$BGT` is equivalent the `$BERA` price
+- Price of Stake Token
+
+<Info>
+If the `periodFinish` timestamp has elapsed no rewards are being emitted. As a result, the `$BGT` APR is 0%.
+</Info>
+
+The units of `rewardRate` is denominated as `$BGT per second`. The above pieces of data allow us to calculate the APR on the Reward Vault in the following way:
+
+$$APR = \frac{rewardRate \times secondsPerYear \times priceOfBGT}{totalSupply \times priceOfStakeToken}$$
+
+This formula provides the current rate that the Reward Vault is crediting depositors with `$BGT`.
+
+### Example
+
+As a concrete example of the above formula, a reward vault with the following values can be used:
+
+| Parameter            | Value                                | Normalized          |
+| :------------------- | :----------------------------------- | :------------------ |
+| Reward Rate          | 272490527103681170793308992914391673 | 0.27249052710368116 |
+| Price of `$BERA`     | $7.8                                 | $7.8                |
+| Total Supply         | 598626940947001140289                | 598.6269409470011   |
+| Price of Stake Token | $223,845.58                          | $223,845.58         |
+| Seconds per year     | 31,536,000                           | 31,536,000          |
+
+<Tip>
+The `rewardRate` returned is in gwei and includes an extra precision factor of `1e18`, so is effectively in wei. Normalizing it requires dividing by `1e36`.
+</Tip>
+
+Using the formula above:
+
+$$APR = \frac{0.27249052710368116 \times 31536000 \times 7.8}{598.6269409470011 \times 223845.58} = 0.500204 = 50.02\%$$
+
+These values are updated on the [Vaults](https://hub.berachain.com/vaults/) page roughly every five minutes.

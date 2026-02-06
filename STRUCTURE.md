@@ -10,7 +10,7 @@ The documentation uses **top-level tabs** to organize content for three main pro
 └─────────────────────────────────────────────────────────┘
 ```
 
-## Tab 1: Berachain 🔷
+## Tab 1: Berachain
 
 **Purpose**: Core blockchain documentation
 
@@ -37,7 +37,7 @@ Berachain/
 - `/berachain/learn/proof-of-liquidity.mdx` - Core innovation
 - `/berachain/developers/quickstart.mdx` - Developer onboarding
 
-## Tab 2: BEX 🔄
+## Tab 2: BEX
 
 **Purpose**: Decentralized Exchange (DEX) documentation
 
@@ -62,7 +62,7 @@ BEX/
 - `/bex/guides/trading.mdx` - How to trade
 - `/bex/developers/integration.mdx` - SDK integration
 
-## Tab 3: Bend 💰
+## Tab 3: Bend
 
 **Purpose**: Lending & Borrowing protocol documentation
 

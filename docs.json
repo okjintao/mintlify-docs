@@ -1,111 +1,131 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "maple",
+  "theme": "almond",
   "mode": "dark",
-  "name": "Berachain Documentation",
+  "name": "Berachain",
   "colors": {
     "primary": "#E17726",
     "light": "#F89D4E",
     "dark": "#C96516"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://berachain.com"
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Berachain",
-        "icon": "cube",
+        "tab": "General",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Introduction",
             "pages": [
-              "berachain/introduction"
+              "general/introduction/what-is-berachain",
+              "general/introduction/what-is-proof-of-liquidity",
+              "general/introduction/connect-to-berachain",
+              "general/introduction/how-to-get-bera"
             ]
           },
           {
             "group": "Proof of Liquidity",
             "pages": [
-              "berachain/learn/pol/overview",
-              "berachain/learn/pol/what-is-pol",
-              "berachain/learn/pol/block-rewards"
+              "general/proof-of-liquidity/overview",
+              "general/proof-of-liquidity/participants",
+              "general/proof-of-liquidity/reward-vaults",
+              "general/proof-of-liquidity/incentives",
+              "general/proof-of-liquidity/block-rewards"
             ]
           },
           {
-            "group": "Integration",
+            "group": "Tokens",
             "pages": [
-              "berachain/developers/quickstart",
-              "berachain/developers/pol-integration"
+              "general/tokens/bera",
+              "general/tokens/bgt",
+              "general/tokens/honey"
             ]
           },
           {
-            "group": "Guides",
+            "group": "Governance",
             "pages": [
-              "berachain/developers/guides/build-smart-contract"
+              "general/governance/overview",
+              "general/governance/reward-vault-governance"
             ]
           },
           {
-            "group": "Block Rewards",
+            "group": "Help",
             "pages": [
-              "berachain/developers/contracts/block-reward-controller"
-            ]
-          },
-          {
-            "group": "Honey",
-            "pages": [
-              "berachain/learn/honey/overview",
-              "berachain/developers/contracts/honey-token",
-              "berachain/developers/contracts/honey-factory"
+              "general/help/faqs",
+              "general/help/glossary"
             ]
           }
         ]
       },
       {
         "tab": "BEX",
-        "icon": "arrow-right-arrow-left",
         "groups": [
           {
-            "group": "Overview",
+            "group": "Learn",
             "pages": [
-              "bex/introduction"
+              "bex/learn/overview"
             ]
           },
           {
-            "group": "User Guides",
+            "group": "Guides",
             "pages": [
-              "bex/guides/trading",
-              "bex/guides/liquidity"
-            ]
-          },
-          {
-            "group": "Developers",
-            "pages": [
-              "bex/developers/integration",
-              "bex/contracts/overview"
+              "bex/guides/swaps",
+              "bex/guides/liquidity",
+              "bex/guides/pool-creation",
+              "bex/guides/proof-of-liquidity"
             ]
           }
         ]
       },
       {
         "tab": "Bend",
-        "icon": "hand-holding-dollar",
+        "groups": [
+          {
+            "group": "Learn",
+            "pages": [
+              "bend/learn/overview"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "bend/guides/deposit-withdraw",
+              "bend/guides/borrow-repay"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Build",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "build/getting-started/overview",
+              "build/getting-started/network-configurations",
+              "build/getting-started/developer-tools"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Validators",
         "groups": [
           {
             "group": "Overview",
             "pages": [
-              "bend/introduction"
+              "validators/overview/index"
             ]
           },
           {
-            "group": "User Guides",
+            "group": "Architecture",
             "pages": [
-              "bend/guides/lending",
-              "bend/guides/borrowing"
-            ]
-          },
-          {
-            "group": "Developers",
-            "pages": [
-              "bend/developers/integration",
-              "bend/contracts/overview"
+              "validators/architecture/validator-lifecycle"
             ]
           }
         ]
@@ -114,49 +134,40 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Website",
-          "href": "https://berachain.com",
-          "icon": "globe"
+          "anchor": "Discord",
+          "icon": "discord",
+          "href": "https://discord.gg/berachain"
+        },
+        {
+          "anchor": "Twitter",
+          "icon": "x-twitter",
+          "href": "https://x.com/berachain"
         },
         {
           "anchor": "GitHub",
-          "href": "https://github.com/berachain",
-          "icon": "github"
+          "icon": "github",
+          "href": "https://github.com/berachain"
         },
         {
-          "anchor": "Discord",
-          "href": "https://discord.gg/berachain",
-          "icon": "discord"
+          "anchor": "Telegram",
+          "icon": "telegram",
+          "href": "https://t.me/berachain"
         },
         {
-          "anchor": "Blog",
-          "href": "https://blog.berachain.com",
-          "icon": "newspaper"
+          "anchor": "Bera Hub",
+          "icon": "sitemap",
+          "href": "https://hub.berachain.com"
+        },
+        {
+          "anchor": "Honey Swap",
+          "icon": "arrow-right-arrow-left",
+          "href": "https://honey.berachain.com"
         }
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
   "navbar": {
-    "links": [],
-    "search": {
-      "position": "center"
-    }
-  },
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
-    ]
+    "links": []
   },
   "footer": {
     "socials": {
@@ -165,24 +176,5 @@
       "discord": "https://discord.gg/berachain",
       "telegram": "https://t.me/berachain"
     }
-  },
-  "api": {
-    "baseUrl": "https://api.berachain.com",
-    "playground": {
-      "mode": "simple"
-    }
-  },
-  "feedback": {
-    "thumbsRating": true,
-    "suggestEdit": true,
-    "raiseIssue": true
-  },
-  "analytics": {
-    "ga4": {
-      "measurementId": "G-XXXXXXXXXX"
-    }
-  },
-  "seo": {
-    "indexHiddenPages": false
   }
 }
