@@ -1,4 +1,4 @@
-/* Move global anchors to bottom of sidebar (Almond theme - where theme picker is) */
+/* Move global anchors to bottom of sidebar (Almond theme) */
 #sidebar,
 [data-sidebar] {
   display: flex;
@@ -14,9 +14,20 @@
   border-top: 1px solid rgba(128, 128, 128, 0.2);
 }
 
-/* Almond theme: ensure anchors appear in bottom section area */
 .almond-nav-bottom-section .nav-anchors,
 .almond-layout .nav-anchors {
   order: 999;
   margin-top: auto;
 }
+
+/* Move theme controller to right of tabs (General, BEX, etc.) */
+/* Theme toggle lives in almond-nav-bottom-section - reposition to top bar */
+.almond-nav-bottom-section button,
+.almond-nav-bottom-section [role="button"] {
+  position: fixed;
+  top: 1rem;
+  right: 1.5rem;
+  z-index: 100;
+}
+
+/* Prevent tabs from overlapping theme toggle - JS applies padding dynamically */
